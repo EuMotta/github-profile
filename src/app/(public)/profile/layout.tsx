@@ -1,3 +1,4 @@
+import { Navbar1 } from '@/templates/navbar1';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,13 +14,14 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function PublicLayout({
+export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <div>
+      <Navbar1 />
       {children}
     </div>
   );

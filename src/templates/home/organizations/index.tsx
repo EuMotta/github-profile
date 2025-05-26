@@ -1,26 +1,56 @@
 import { MdFavorite } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { gitMock } from '@/constants/github';
+import { useGetGithubOrgs } from '@/hooks/github-orgs';
+import { useParams } from 'next/navigation';
+
+type Org = (typeof gitMock.orgs)[0];
+
+const OrganizationCard = ({ org }: { org: Org }) => {
+  return (
+    <Card
+      key={org.id}
+      className="rounded-lg border bg-background p-4 transition-all duration-300 hover:border-primary hover:shadow-md hover:shadow-primary/20"
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <img
+            src={org.avatar_url}
+            alt={org.login}
+            className="h-10 w-10 rounded-md object-cover"
+          />
+          <a
+            href={org.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-pointer text-lg font-medium text-primary transition-colors duration-200 hover:underline"
+          >
+            {org.login}
+          </a>
+        </div>
+      </div>
+
+      <p className="mt-2 line-clamp-2 text-sm text-gray-400">
+        {org.description || 'Sem descrição disponível.'}
+      </p>
+
+      <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+        <a
+          href={org.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          Ver Organização →
+        </a>
+      </div>
+    </Card>
+  );
+};
 
 const Organizations = () => {
-  const organizations = [
-    {
-      name: 'React Community',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png',
-    },
-    {
-      name: 'TypeScript',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png',
-    },
-    {
-      name: 'Node.js Foundation',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/590px-Node.js_logo.svg.png',
-    },
-    {
-      name: 'Open Source Collective',
-      logo: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-    },
-  ];
-
+  const params = useParams();
+  const { data } = useGetGithubOrgs(params.username);
   return (
     <Card>
       <CardHeader>
@@ -29,20 +59,10 @@ const Organizations = () => {
           Organizations
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-6">
-        <div className="grid grid-cols-2 gap-4">
-          {organizations.map((org, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center gap-2 rounded-lg bg-muted p-3 transition-colors duration-200 hover:bg-muted-foreground/10"
-            >
-              <img
-                src={org.logo}
-                alt={org.name}
-                className="h-12 w-12 object-contain"
-              />
-              <div className="text-center text-sm font-medium">{org.name}</div>
-            </div>
+      <CardContent>
+        <div className="max-h-96 space-y-4 overflow-auto">
+          {data?.map((org, index) => (
+            <OrganizationCard key={index} org={org} />
           ))}
         </div>
       </CardContent>

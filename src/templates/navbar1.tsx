@@ -25,6 +25,7 @@ import {
 import { ThemeToggle } from '@/components/ui/theme-button';
 import ColorSection from '@/components/color-section';
 import Image from 'next/image';
+import Logo from '@/components/logo';
 
 interface MenuItem {
   title: string;
@@ -55,12 +56,6 @@ interface Navbar1Props {
 }
 
 const Navbar1 = ({
-  logo = {
-    url: 'https://www.shadcnblocks.com',
-    src: '/gitlogo.png',
-    alt: 'logo',
-    title: 'StyledHub',
-  },
   menu = [
     { title: 'Home', url: '#' },
     {
@@ -143,12 +138,7 @@ const Navbar1 = ({
       <div className="container">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
-            <a href={logo.url} className="flex items-center gap-2">
-              <Image src={logo.src} width={50} height={50} className="max-h-12 max-w-12" alt={logo.alt} />
-              <span className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 tracking-tighter">
-                {logo.title}
-              </span>
-            </a>
+            <Logo />
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -163,13 +153,9 @@ const Navbar1 = ({
           </div>
         </nav>
 
-        {/* Mobile Menu */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img src={logo.src} className="max-h-8" alt={logo.alt} />
-            </a>
+            <Logo />
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -179,9 +165,7 @@ const Navbar1 = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
-                      <img src={logo.src} className="max-h-8" alt={logo.alt} />
-                    </a>
+                    <Logo />
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">

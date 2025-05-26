@@ -210,7 +210,7 @@ export const themes = [
         'popover-foreground': '242 5% 90%',
         primary: '356 94% 66%',
         'primary-foreground': ' 0 0% 0%',
-        secondary: '242 30% 10%',
+        secondary: '236 94% 66%',
         'secondary-foreground': '0 0% 100%',
         muted: '204 30% 15%',
         'muted-foreground': '242 5% 60%',

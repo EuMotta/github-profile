@@ -3,53 +3,37 @@ import { MdGroup, MdFavorite, MdPersonAdd } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { gitMock } from '@/constants/github';
+import { useGetGithubFollowers } from '@/hooks/github-followers';
+import { useParams } from 'next/navigation';
 
 const Followers = () => {
-  const followers = [
-    {
-      name: 'Sarah Johnson',
-      username: 'sarahj',
-      avatar: 'https://randomuser.me/api/portraits/women/32.jpg',
-    },
-    {
-      name: 'Mike Chen',
-      username: 'mikedev',
-      avatar: 'https://randomuser.me/api/portraits/men/54.jpg',
-    },
-    {
-      name: 'Lisa Patel',
-      username: 'lisacodes',
-      avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
-    },
-  ];
-
+  const params = useParams();
+  const { data } = useGetGithubFollowers(params.username);
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-xl font-semibold">
-          <MdGroup className="text-primary" />
-          Top Followers
+        <CardTitle className="flex items-center justify-between text-xl font-semibold">
+          <div className="flex items-center gap-2">
+            <MdGroup className="text-primary" />
+            Followers
+          </div>
+          {gitMock.user.followers}
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">
         <div className="space-y-4">
-          {followers.map((follower, index) => (
+          {data?.map((follower, index) => (
             <div
               key={index}
               className="flex items-center gap-3 rounded-lg p-2 transition-colors duration-200 hover:bg-muted"
             >
               <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
+                <AvatarImage src={follower.avatar_url} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div>
-                <div className="font-medium">{follower.name}</div>
-                <div className="text-sm text-muted-foreground">
-                  @{follower.username}
-                </div>
+                <div className="font-medium">@{follower.login}</div>
               </div>
               <Button
                 size="icon"

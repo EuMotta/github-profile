@@ -2,7 +2,7 @@ import 'server-only';
 import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 
-import { authOptions } from '@/app/api/services/auth/[...nextauth]/auth-options';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 type MutatorConfig = {
@@ -18,7 +18,7 @@ const API_URL = process.env.API_URL!;
 async function withRetry<T>(
   fn: () => Promise<T>,
   retries = 4,
-  delayMs = 300,
+  delayMs = 300
 ): Promise<T> {
   let lastError: any;
   for (let attempt = 1; attempt <= retries; attempt++) {
@@ -39,7 +39,7 @@ export default async function serverClientFactory<T>({
   method,
   body,
   params,
-  headers,
+  headers
 }: MutatorConfig): Promise<T> {
   const session = await getServerSession(authOptions);
   const tag = url.split('/')[1] || 'default';
@@ -47,7 +47,7 @@ export default async function serverClientFactory<T>({
   const commonHeaders = {
     'Content-Type': 'application/json',
     ...(session?.token ? { Authorization: `Bearer ${session.token}` } : {}),
-    ...headers,
+    ...headers
   };
 
   if (method === 'get') {
@@ -58,8 +58,8 @@ export default async function serverClientFactory<T>({
         headers: commonHeaders,
         next: {
           tags: [tag],
-          revalidate: false,
-        },
+          revalidate: false
+        }
       });
 
       const data = await res.json();
@@ -81,7 +81,7 @@ export default async function serverClientFactory<T>({
     method,
     data: body,
     params,
-    headers: commonHeaders,
+    headers: commonHeaders
   };
 
   const axiosOnce = async () => {
