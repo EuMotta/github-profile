@@ -7,6 +7,7 @@ import {
   getCachedData,
   LAST_FETCH_KEY,
 } from '@/utils/cache-utils';
+import { headersGit as headers } from '../api';
 
 export async function getGithubEvents(username: string): Promise<GitEvents[]> {
   const cacheKey = `events_${username}`;
@@ -19,6 +20,7 @@ export async function getGithubEvents(username: string): Promise<GitEvents[]> {
     console.log(`Fetching events for ${username}`);
     const response = await api.get<GitEvents[]>(
       `https://api.github.com/users/${username}/events?per_page=5`,
+      { headers },
     );
 
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());

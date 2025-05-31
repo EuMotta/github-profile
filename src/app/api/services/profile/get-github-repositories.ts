@@ -3,7 +3,12 @@ import axios, { AxiosError } from 'axios';
 import { errorList, FIFTEEN_MINUTES } from '@/constants';
 import { GitRepository } from '@/@interfaces/github/project';
 import { handleApiError } from '@/utils/handleApiError';
-import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
+import {
+  CACHED_DATA_KEY,
+  getCachedData,
+  LAST_FETCH_KEY,
+} from '@/utils/cache-utils';
+import { headersGit as headers } from '../api';
 
 export async function getGithubRepositories(username: string) {
   const cacheKey = `repositories_${username}`;
@@ -15,6 +20,7 @@ export async function getGithubRepositories(username: string) {
   try {
     const repositories = await axios.get<GitRepository>(
       `https://api.github.com/search/repositories?q=user:${username}&sort=stars&order=desc&per_page=4`,
+      { headers },
     );
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
     localStorage.setItem(

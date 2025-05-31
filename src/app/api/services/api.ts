@@ -1,5 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-
+export const headersGit = {
+  Accept: 'application/vnd.github.cloak-preview+json',
+  Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+  'X-GitHub-Api-Version': '2022-11-28',
+};
 const axiosiInstance = axios.create({
   baseURL: process.env.API_URL,
 });

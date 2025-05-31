@@ -8,6 +8,7 @@ import {
   LAST_FETCH_KEY,
 } from '@/utils/cache-utils';
 import { GitProfile } from '@/@interfaces/github/profile';
+import { headersGit as headers } from '../api';
 
 export async function getGithubProfile(username: string) {
   const cacheKey = `profile_${username}`;
@@ -20,6 +21,7 @@ export async function getGithubProfile(username: string) {
     console.log('fetchj');
     const profile = await axios.get(
       `https://api.github.com/users/${username}`,
+      { headers },
     );
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
     localStorage.setItem(

@@ -7,6 +7,7 @@ import {
   LAST_FETCH_KEY,
 } from '@/utils/cache-utils';
 import { GitGists } from '@/@interfaces/github/gists';
+import { headersGit as headers } from '../api';
 
 export async function getGithubGists(username: string) {
   const cacheKey = `gists_${username}`;
@@ -19,6 +20,7 @@ export async function getGithubGists(username: string) {
     console.log('fetching gists for', username);
     const gists = await axios.get<GitGists[]>(
       `https://api.github.com/users/${username}/gists?per_page=4`,
+      { headers },
     );
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
     localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(gists.data));
