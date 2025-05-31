@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const axiosiInstance = axios.create({
-  baseURL: process.env.FULL_URL,
+  baseURL: process.env.API_URL,
 });
 
 const api = (axios: AxiosInstance) => {

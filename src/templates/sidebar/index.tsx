@@ -11,18 +11,19 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useGitProfile } from '@/providers/git-profile';
 import { MdSecurity } from 'react-icons/md';
 import { formatDateToPtBR } from '@/utils/datetime';
+import { GitCard, GitCardContent } from '@/components/ui/git-card';
+import { useSearchParams } from 'next/navigation';
 
 const Sidebar = () => {
   const { data: user, isLoading } = useGitProfile();
-  console.log(user);
-
+  const params = useSearchParams();
+  const cardstyle = params.get('card');
   return (
-    <Card>
-      <CardContent className="p-5">
+    <GitCard>
+      <GitCardContent className="p-5">
         <div className="flex flex-col items-center">
           <div className="relative">
             <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-primary transition-all duration-300 hover:scale-105">
@@ -53,7 +54,8 @@ const Sidebar = () => {
             <p className="flex items-center justify-center gap-1 text-muted-foreground">
               <FaLink className="text-sm" />
               <a
-                href="#"
+                rel="noopener noreferrer"
+                href={user?.blog}
                 className="text-primary transition-colors duration-200 hover:text-primary/80"
               >
                 {user?.blog}
@@ -81,7 +83,6 @@ const Sidebar = () => {
           <div className="grid grid-cols-2 gap-4">
             {[
               { label: 'Repositories', value: user?.public_repos },
-              { label: 'Gists', value: 45 },
               { label: 'Followers', value: user?.followers },
               { label: 'Following', value: user?.following },
             ].map((stat, i) => (
@@ -121,8 +122,8 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </GitCardContent>
+    </GitCard>
   );
 };
 

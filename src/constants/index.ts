@@ -5,3 +5,5 @@ export const errorList = [
   { statusCode: 404, message: 'Not Found' },
   { statusCode: 500, message: 'Internal Server Error' },
 ];
+
+export const FIFTEEN_MINUTES = 15 * 60 * 1000;

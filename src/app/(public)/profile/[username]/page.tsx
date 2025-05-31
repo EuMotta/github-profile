@@ -7,6 +7,7 @@ import Followers from '@/templates/home/followers';
 import Organizations from '@/templates/home/organizations';
 import { ProfileGitProvider } from '@/providers/git-profile';
 import { useGetGithubProfile } from '@/hooks/github-profile';
+import RecentActivity from '@/templates/home/activity';
 
 interface Page {
   params: {
@@ -14,7 +15,9 @@ interface Page {
   };
 }
 const Page = ({ params }: Page) => {
-  const { data: user, isLoading: isLoadingUser } = useGetGithubProfile(params.username);
+  const { data: user, isLoading: isLoadingUser } = useGetGithubProfile(
+    params.username,
+  );
 
   return (
     <ProfileGitProvider data={user} isLoading={isLoadingUser}>
@@ -25,15 +28,15 @@ const Page = ({ params }: Page) => {
             <Sidebar />
           </div>
           <div className="col-span-2 space-y-5">
-            <Repositories />
+            <Repositories username={params.username} />
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              <Followers />
+              <Followers username={params.username} />
 
-              <Organizations />
+              <Organizations username={params.username} />
             </div>
 
-            {/* <RecentActivity /> */}
+            <RecentActivity username={params.username} /> 
           </div>
         </div>
         <div className="mt-8 border-t pt-6">

@@ -1,4 +1,3 @@
-import { Navbar1 } from '@/templates/navbar1';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -21,7 +20,7 @@ export default function ProfileLayout({
 }) {
   return (
     <div>
-      <Navbar1 />
+      
       {children}
     </div>
   );

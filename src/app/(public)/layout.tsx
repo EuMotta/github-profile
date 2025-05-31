@@ -1,3 +1,5 @@
+import Footer from '@/templates/footer';
+import { Navbar1 } from '@/templates/navbar1';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -19,8 +21,10 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className='min-h-screen'>
+      <Navbar1 />
       {children}
+      <Footer />
     </div>
   );
 }

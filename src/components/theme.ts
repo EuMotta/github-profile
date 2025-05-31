@@ -14,7 +14,6 @@ export function ThemeApplier() {
     const vars = cssVars[mode];
     if (vars) {
       Object.entries(vars).forEach(([key, value]) => {
-        console.log(key, value);
         document.documentElement.style.setProperty(`--${key}`, String(value));
       });
     }

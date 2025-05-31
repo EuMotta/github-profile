@@ -1,5 +1,6 @@
 'use client';
 import { getGithubStats } from '@/app/api/services/get-github-stats';
+import { FIFTEEN_MINUTES } from '@/constants';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 export interface Stats {
@@ -18,7 +19,11 @@ export interface Rank {
 
 export function useGetGithubStats(username: string) {
   return useQuery({
-    queryKey: ['get-github-stats'],
+    queryKey: [`get-github-stats-${username}`],
     queryFn: () => getGithubStats(username),
+    staleTime: FIFTEEN_MINUTES,
+    gcTime: FIFTEEN_MINUTES * 2,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 }

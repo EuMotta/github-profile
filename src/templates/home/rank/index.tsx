@@ -10,7 +10,7 @@ const Rank = () => {
     data: rank,
     isLoading: isLoadingRank,
     isError: isErrorRank,
-  } = useGetGithubStats();
+  } = useGetGithubStats('');
 
   if (isErrorRank || !rank)
     return <p className="text-red-500">Erro ao carregar status do GitHub.</p>;

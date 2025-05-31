@@ -13,9 +13,7 @@ import { gitMock } from '@/constants/github';
 import { useParams } from 'next/navigation';
 import { useGetGithubRepositories } from '@/hooks/github-repositories';
 
-const Repositories = () => {
-  const username = useParams().username as string;
-
+const Repositories = ({ username }: { username: string }) => {
   const { data } = useGetGithubRepositories(username);
   return (
     <Card>

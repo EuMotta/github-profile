@@ -1,58 +1,72 @@
 import { MdHistory } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useGetGithubEvents } from '@/hooks/github-events';
 
-const RecentActivity = () => {
-  const activities = [
-    {
-      type: 'commit',
-      repo: 'next-ai-starter',
-      time: '2 hours ago',
-      message: 'Fix authentication middleware',
-    },
-    {
-      type: 'issue',
-      repo: 'react-data-grid',
-      time: '1 day ago',
-      message: 'Reported bug in column resizing',
-    },
-    {
-      type: 'pr',
-      repo: 'tailwind-components',
-      time: '3 days ago',
-      message: 'Added new card components',
-    },
-    {
-      type: 'star',
-      repo: 'awesome-typescript',
-      time: '1 week ago',
-      message: 'Starred repository',
-    },
-  ];
-
+const RecentActivity = ({ username }: { username: string }) => {
+  const { data: events } = useGetGithubEvents(username);
   const getTypeLabel = (type: string) => {
     switch (type) {
-      case 'commit':
-        return 'Pushed commit to';
-      case 'issue':
+      case 'PushEvent':
+        return 'Pushed commits to';
+      case 'IssuesEvent':
         return 'Opened issue in';
-      case 'pr':
+      case 'PullRequestEvent':
         return 'Created pull request in';
-      default:
+      case 'ForkEvent':
+        return 'Forked';
+      case 'WatchEvent':
         return 'Starred';
+      case 'CreateEvent':
+        return 'Created';
+      case 'DeleteEvent':
+        return 'Deleted';
+      default:
+        return 'Performed action in';
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'commit':
+      case 'PushEvent':
         return 'text-green-400';
-      case 'issue':
+      case 'IssuesEvent':
         return 'text-red-400';
-      case 'pr':
+      case 'PullRequestEvent':
         return 'text-purple-400';
-      default:
+      case 'ForkEvent':
+        return 'text-blue-400';
+      case 'WatchEvent':
         return 'text-yellow-400';
+      case 'CreateEvent':
+        return 'text-indigo-400';
+      case 'DeleteEvent':
+        return 'text-gray-400';
+      default:
+        return 'text-muted-foreground';
+    }
+  };
+
+  const getEventDescription = (event: any) => {
+    const { type, payload } = event;
+    switch (type) {
+      case 'PushEvent':
+        const commitCount = payload.commits?.length || 0;
+        return `${commitCount} commit${commitCount !== 1 ? 's' : ''} pushed`;
+      case 'IssuesEvent':
+        return `Issue ${payload.action}: ${payload.issue?.title}`;
+      case 'PullRequestEvent':
+        return `Pull request ${payload.action}: ${payload.pull_request?.title}`;
+      case 'ForkEvent':
+        return `Forked to ${payload.forkee?.full_name}`;
+      case 'WatchEvent':
+        return `Starred the repository`;
+      case 'CreateEvent':
+        return `Created ${payload.ref_type}: ${payload.ref}`;
+      case 'DeleteEvent':
+        return `Deleted ${payload.ref_type}: ${payload.ref}`;
+      default:
+        return '';
     }
   };
 
@@ -66,7 +80,7 @@ const RecentActivity = () => {
       </CardHeader>
       <CardContent className="p-6">
         <div className="relative space-y-6 border-l pl-6">
-          {activities.map((activity, index) => (
+          {events?.map((activity, index) => (
             <div key={index} className="relative">
               <div className="absolute -left-10 mt-1 h-4 w-4 rounded-full border-4 bg-primary"></div>
               <div className="mb-1 flex items-center gap-2">
@@ -74,14 +88,14 @@ const RecentActivity = () => {
                   {getTypeLabel(activity.type)}
                 </span>
                 <span className="font-medium text-primary">
-                  {activity.repo}
+                  {activity.repo.name}
                 </span>
                 <span className="ml-auto text-xs text-muted-foreground">
-                  {activity.time}
+                  {new Date(activity.created_at).toLocaleString()}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground">
-                {activity.message}
+                {getEventDescription(activity)}
               </p>
             </div>
           ))}

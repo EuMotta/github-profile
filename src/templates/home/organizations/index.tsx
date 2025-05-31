@@ -48,9 +48,8 @@ const OrganizationCard = ({ org }: { org: Org }) => {
   );
 };
 
-const Organizations = () => {
-  const params = useParams();
-  const { data } = useGetGithubOrgs(params.username);
+const Organizations = ({ username }: { username: string }) => {
+  const { data } = useGetGithubOrgs(username);
   return (
     <Card>
       <CardHeader>

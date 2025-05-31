@@ -32,26 +32,36 @@
   }
 
   .dark {
-    --background: 331 50% 5%;
-    --foreground: 331 5% 90%;
-    --card: 331 50% 5%;
-    --card-foreground: 331 5% 90%;
-    --popover: 331 50% 5%;
-    --popover-foreground: 331 5% 90%;
-    --primary: 331 81% 46%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 331 30% 10%;
+    --background: 233 37% 4%;
+    --foreground: 242 5% 90%;
+
+    --card: 210 8% 5%;
+    --card-foreground: 242 5% 90%;
+
+    --popover: 242 50% 5%;
+    --popover-foreground: 242 5% 90%;
+
+    --primary: 356 94% 66%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 236 94% 66%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 293 30% 15%;
-    --muted-foreground: 331 5% 60%;
-    --accent: 293 30% 15%;
-    --accent-foreground: 331 5% 90%;
+
+    --muted: 204 30% 15%;
+    --muted-foreground: 242 5% 60%;
+
+    --accent: 230 7% 16%;
+    --accent-foreground: 242 5% 90%;
+
     --destructive: 0 100% 30%;
-    --destructive-foreground: 331 5% 90%;
-    --border: 331 30% 18%;
-    --input: 331 30% 18%;
-    --ring: 331 81% 46%;
+    --destructive-foreground: 242 5% 90%;
+
+    --border: 242 30% 18%;
+    --input: 242 30% 18%;
+    --ring: 242 93% 40%;
+
     --radius: 0.75rem;
+
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -231,4 +241,8 @@ h5 {
   p {
     font-size: 0.75em;
   } /* 12px */
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 bg-clip-text text-transparent;
 }

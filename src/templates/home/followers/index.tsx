@@ -7,9 +7,8 @@ import { gitMock } from '@/constants/github';
 import { useGetGithubFollowers } from '@/hooks/github-followers';
 import { useParams } from 'next/navigation';
 
-const Followers = () => {
-  const params = useParams();
-  const { data } = useGetGithubFollowers(params.username);
+const Followers = ({ username }: { username: string }) => {
+  const { data } = useGetGithubFollowers(username);
   return (
     <Card>
       <CardHeader>

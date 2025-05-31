@@ -1,27 +1,30 @@
 import axios, { AxiosError } from 'axios';
 
-import { errorList } from '@/constants';
-import { gitMock } from '@/constants/github';
+import { handleApiError } from '@/utils/handleApiError';
+import {
+  CACHED_DATA_KEY,
+  getCachedData,
+  LAST_FETCH_KEY,
+} from '@/utils/cache-utils';
+import { GitGists } from '@/@interfaces/github/gists';
 
-export async function getGithubProfile(username: string) {
+export async function getGithubGists(username: string) {
+  const cacheKey = `gists_${username}`;
+  const cachedEvents = getCachedData<GitGists[]>(cacheKey);
+  if (cachedEvents) {
+    return cachedEvents;
+  }
+
   try {
-    const gists = await axios.get(
+    console.log('fetching gists for', username);
+    const gists = await axios.get<GitGists[]>(
       `https://api.github.com/users/${username}/gists?per_page=4`,
     );
+    localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
+    localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(gists.data));
 
     return gists.data;
   } catch (error) {
-    {
-      const _error = error as AxiosError<{ message: string }>;
-      if (_error.response) {
-        const { status, data } = _error.response;
-
-        const errorEntry = errorList.find((e) => e.statusCode === status);
-        if (errorEntry) {
-          throw new Error(data.message || errorEntry.message);
-        }
-      }
-      throw new Error('Um erro inesperado aconteceu');
-    }
+    handleApiError(error);
   }
 }

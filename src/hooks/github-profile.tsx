@@ -3,7 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 
 export function useGetGithubProfile(username: string) {
   return useQuery({
-    queryKey: ['get-github-profile'],
+    queryKey: [`get-github-profile-${username}`],
     queryFn: () => getGithubProfile(username),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 }
