@@ -7,7 +7,7 @@ import {
   LAST_FETCH_KEY,
 } from '@/utils/cache-utils';
 import { GitGists } from '@/@interfaces/github/gists';
-import { headersGit as headers } from '../api';
+import { headersGit as headers } from '../../api';
 
 export async function getGithubGists(username: string) {
   const cacheKey = `gists_${username}`;

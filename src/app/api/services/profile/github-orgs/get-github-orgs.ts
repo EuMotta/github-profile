@@ -7,7 +7,7 @@ import {
   getCachedData,
   LAST_FETCH_KEY,
 } from '@/utils/cache-utils';
-import { headersGit as headers } from '../api';
+import api, { headersGit as headers } from '../../api';
 
 export async function getGithubOrgs(username: string) {
   const cacheKey = `orgs_${username}`;
@@ -18,14 +18,13 @@ export async function getGithubOrgs(username: string) {
 
   try {
     console.log('fetching organizations for', username);
-    const orgs = await axios.get<Organization[]>(
-      `https://api.github.com/users/${username}/orgs?per_page=4`,
-      { headers },
+    const response = await api.get<Organization[]>(
+      `/api/services/profile/github-orgs/${username}`,
     );
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
-    localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(orgs.data));
+    localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(response.data));
 
-    return orgs.data;
+    return response.data;
   } catch (error) {
     handleApiError(error);
   }

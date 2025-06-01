@@ -1,13 +1,6 @@
 'use client';
 import React from 'react';
-import {
-  FaMapMarkerAlt,
-  FaLink,
-  FaEye,
-  FaPlus,
-  FaChartBar,
-  FaCalendarAlt,
-} from 'react-icons/fa';
+import { FaMapMarkerAlt, FaLink, FaEye, FaPlus, FaChartBar, FaCalendarAlt } from 'react-icons/fa';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,8 +9,10 @@ import { MdSecurity } from 'react-icons/md';
 import { formatDateToPtBR } from '@/utils/datetime';
 import { GitCard, GitCardContent } from '@/components/ui/git-card';
 import { useSearchParams } from 'next/navigation';
+import TopLangs from './top-langs';
+import Rank from './rank';
 
-const Sidebar = () => {
+const Sidebar = ({ username }: { username: string }) => {
   const { data: user, isLoading } = useGitProfile();
   const params = useSearchParams();
   const cardstyle = params.get('card');
@@ -90,12 +85,8 @@ const Sidebar = () => {
                 key={i}
                 className="rounded-lg bg-accent p-3 transition-colors duration-200 hover:bg-accent/80"
               >
-                <div className="text-2xl font-bold text-secondary">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
+                <div className="text-2xl font-bold text-secondary">{stat.value}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -122,6 +113,8 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+        <TopLangs username={username}/>
+        <Rank username={username}/>
       </GitCardContent>
     </GitCard>
   );

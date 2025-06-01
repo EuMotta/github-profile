@@ -3,6 +3,7 @@ export const errorList = [
   { statusCode: 401, message: 'Unauthorized' },
   { statusCode: 403, message: 'Forbidden' },
   { statusCode: 404, message: 'Not Found' },
+  { statusCode: 422, message: 'Validation Failed: Repository or user not found or inaccessible' },
   { statusCode: 500, message: 'Internal Server Error' },
 ];
 

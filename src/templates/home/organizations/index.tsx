@@ -1,55 +1,54 @@
 import { MdFavorite } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { gitMock } from '@/constants/github';
 import { useGetGithubOrgs } from '@/hooks/github-orgs';
-import { useParams } from 'next/navigation';
+import { Response } from '@/components/common/response';
+import { Organization } from '@/@interfaces/github/organization';
 
-type Org = (typeof gitMock.orgs)[0];
+interface OrganizationCardProps {
+  org: Organization;
+}
 
-const OrganizationCard = ({ org }: { org: Org }) => {
-  return (
-    <Card
-      key={org.id}
-      className="rounded-lg border bg-background p-4 transition-all duration-300 hover:border-primary hover:shadow-md hover:shadow-primary/20"
-    >
+const OrganizationCard: React.FC<OrganizationCardProps> = ({ org }) => (
+  <Card className="rounded-lg border bg-background p-4 transition-all duration-300 hover:border-primary hover:shadow-md hover:shadow-primary/20">
+    <CardHeader className="p-0">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <img
             src={org.avatar_url}
-            alt={org.login}
+            alt={`${org.login} avatar`}
             className="h-10 w-10 rounded-md object-cover"
           />
           <a
             href={org.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="cursor-pointer text-lg font-medium text-primary transition-colors duration-200 hover:underline"
+            className="text-lg font-medium text-primary transition-colors duration-200 hover:underline"
           >
             {org.login}
           </a>
         </div>
       </div>
-
+    </CardHeader>
+    <CardContent className="p-0">
       <p className="mt-2 line-clamp-2 text-sm text-gray-400">
-        {org.description || 'Sem descrição disponível.'}
+        {org.description || 'No description available.'}
       </p>
-
       <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-        <a
-          href={org.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
-          Ver Organização →
+        <a href={org.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+          View Organization →
         </a>
       </div>
-    </Card>
-  );
-};
+    </CardContent>
+  </Card>
+);
 
-const Organizations = ({ username }: { username: string }) => {
-  const { data } = useGetGithubOrgs(username);
+interface OrganizationsProps {
+  username: string;
+}
+
+const Organizations: React.FC<OrganizationsProps> = ({ username }) => {
+  const { data: organizations } = useGetGithubOrgs(username);
+
   return (
     <Card>
       <CardHeader>
@@ -60,12 +59,18 @@ const Organizations = ({ username }: { username: string }) => {
       </CardHeader>
       <CardContent>
         <div className="max-h-96 space-y-4 overflow-auto">
-          {data?.map((org, index) => (
-            <OrganizationCard key={index} org={org} />
-          ))}
+          {organizations?.length === 0 && (
+            <Response
+              image="/stickers/sad.png"
+              title="Oops!"
+              description="No organizations found"
+            />
+          )}
+          {organizations?.map((org) => <OrganizationCard key={org.id} org={org} />)}
         </div>
       </CardContent>
     </Card>
   );
 };
+
 export default Organizations;

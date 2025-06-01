@@ -2,12 +2,8 @@ import axios, { AxiosError } from 'axios';
 
 import { GitFollowers } from '@/@interfaces/github/followers';
 import { handleApiError } from '@/utils/handleApiError';
-import {
-  CACHED_DATA_KEY,
-  getCachedData,
-  LAST_FETCH_KEY,
-} from '@/utils/cache-utils';
-import { headersGit as headers } from '../api';
+import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
+import api from '../../api';
 
 export async function getGithubFollowers(username: string) {
   const cacheKey = `followers_${username}`;
@@ -18,17 +14,13 @@ export async function getGithubFollowers(username: string) {
 
   try {
     console.log('fetching followers for', username);
-    const followers = await axios.get<GitFollowers[]>(
-      `https://api.github.com/users/${username}/followers?per_page=5`,
-      { headers },
-    );
-    localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
-    localStorage.setItem(
-      CACHED_DATA_KEY(cacheKey),
-      JSON.stringify(followers.data),
+    const response = await api.get<GitFollowers[]>(
+      `/api/services/profile/github-followers/${username}`,
     );
 
-    return followers.data;
+    localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
+    localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(response.data));
+    return response.data;
   } catch (error) {
     handleApiError(error);
   }

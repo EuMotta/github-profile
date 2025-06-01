@@ -8,6 +8,7 @@ import Organizations from '@/templates/home/organizations';
 import { ProfileGitProvider } from '@/providers/git-profile';
 import { useGetGithubProfile } from '@/hooks/github-profile';
 import RecentActivity from '@/templates/home/activity';
+import { Response } from '@/components/common/response';
 
 interface Page {
   params: {
@@ -15,17 +16,22 @@ interface Page {
   };
 }
 const Page = ({ params }: Page) => {
-  const { data: user, isLoading: isLoadingUser } = useGetGithubProfile(
-    params.username,
-  );
+  const { data: user, isLoading: isLoadingUser } = useGetGithubProfile(params.username);
 
+  if (!user && !isLoadingUser) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <Response image="/stickers/sad.png" title="Oops!" description="User not found" />
+      </div>
+    );
+  }
   return (
     <ProfileGitProvider data={user} isLoading={isLoadingUser}>
       <div className="container mx-auto p-6">
         <ThemeApplier />
         <div className="grid-cols-3 gap-5 lg:grid">
           <div className="col-span-1">
-            <Sidebar />
+            <Sidebar username={params.username} />
           </div>
           <div className="col-span-2 space-y-5">
             <Repositories username={params.username} />
@@ -36,33 +42,8 @@ const Page = ({ params }: Page) => {
               <Organizations username={params.username} />
             </div>
 
-            <RecentActivity username={params.username} /> 
+            <RecentActivity username={params.username} />
           </div>
-        </div>
-        <div className="mt-8 border-t pt-6">
-          <h3 className="mb-4 text-center text-lg font-semibold">Tech Stack</h3>
-          <div className="flex flex-wrap justify-center gap-4">
-            {[
-              'React',
-              'TypeScript',
-              'Node.js',
-              'MongoDB',
-              'GraphQL',
-              'Tailwind CSS',
-              'Next.js',
-              'Docker',
-            ].map((tech, index) => (
-              <div
-                key={index}
-                className="rounded-full border bg-card px-4 py-2 text-sm font-medium transition-all duration-300 hover:border-primary hover:bg-gray-700"
-              >
-                {tech}
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-sm text-gray-500">
-            Member since 2018 • Last updated May 2023
-          </p>
         </div>
       </div>
     </ProfileGitProvider>

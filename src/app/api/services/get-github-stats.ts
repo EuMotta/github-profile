@@ -1,4 +1,4 @@
-import { getGithubProfile } from './profile/get-github-profile';
+import { getGithubProfile } from './profile/github-profile/get-github-profile';
 import axios, { AxiosError } from 'axios';
 import calculateRank from '@/utils/calculate-rank';
 import { errorList } from '@/constants';

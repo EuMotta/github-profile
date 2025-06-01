@@ -1,4 +1,4 @@
-import { getGithubProfile } from '@/app/api/services/profile/get-github-profile';
+import { getGithubProfile } from '@/app/api/services/profile/github-profile/get-github-profile';
 import { useQuery } from '@tanstack/react-query';
 
 export function useGetGithubProfile(username: string) {

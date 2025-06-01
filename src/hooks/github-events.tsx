@@ -1,4 +1,4 @@
-import { getGithubEvents } from '@/app/api/services/profile/get-github-events';
+import { getGithubEvents } from '@/app/api/services/profile/github-events/get-github-events';
 import { FIFTEEN_MINUTES } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
 
