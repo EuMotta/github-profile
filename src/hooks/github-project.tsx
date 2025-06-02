@@ -8,6 +8,7 @@ export function useGetGithubProject(repository: string) {
     queryKey: [`get-github-project-${repository}`],
     queryFn: () => getGithubProject(repository),
     staleTime: FIFTEEN_MINUTES,
+    enabled: !!repository,
     gcTime: FIFTEEN_MINUTES * 2,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

@@ -7,6 +7,7 @@ export function useGetGithubOrgs(username: string) {
     queryKey: [`get-github-orgs-${username}`],
     queryFn: () => getGithubOrgs(username),
     staleTime: FIFTEEN_MINUTES,
+    enabled: !!username,
     gcTime: FIFTEEN_MINUTES * 2,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

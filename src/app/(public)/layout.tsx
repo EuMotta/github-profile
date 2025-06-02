@@ -15,15 +15,11 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className='min-h-screen'>
+    <div className="flex min-h-screen flex-col">
       <Navbar1 />
-      {children}
+      <main className="flex-grow">{children}</main>
       <Footer />
     </div>
   );

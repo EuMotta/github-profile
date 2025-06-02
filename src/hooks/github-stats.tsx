@@ -22,6 +22,7 @@ export function useGetGithubStats(username: string) {
     queryKey: [`get-github-stats-${username}`],
     queryFn: () => getGithubStats(username),
     staleTime: FIFTEEN_MINUTES,
+    enabled: !!username,
     gcTime: FIFTEEN_MINUTES * 2,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

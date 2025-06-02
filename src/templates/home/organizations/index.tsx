@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useGetGithubOrgs } from '@/hooks/github-orgs';
 import { Response } from '@/components/common/response';
 import { Organization } from '@/@interfaces/github/organization';
+import React from 'react';
 
 interface OrganizationCardProps {
   org: Organization;
 }
 
-const OrganizationCard: React.FC<OrganizationCardProps> = ({ org }) => (
+const OrganizationCard: React.FC<OrganizationCardProps> = React.memo(({ org }) => (
   <Card className="rounded-lg border bg-background p-4 transition-all duration-300 hover:border-primary hover:shadow-md hover:shadow-primary/20">
     <CardHeader className="p-0">
       <div className="flex items-start justify-between">
@@ -40,7 +41,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({ org }) => (
       </div>
     </CardContent>
   </Card>
-);
+));
 
 interface OrganizationsProps {
   username: string;

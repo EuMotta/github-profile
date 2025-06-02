@@ -7,12 +7,12 @@ import { useGetGithubFollowers } from '@/hooks/github-followers';
 import { useParams } from 'next/navigation';
 import { GitFollowers } from '@/@interfaces/github/followers';
 
-const FollowersCard = ({ follower }: { follower: GitFollowers }) => {
+const FollowersCard = React.memo(({ follower }: { follower: GitFollowers }) => {
   return (
     <div className="flex items-center gap-3 rounded-lg p-2 transition-colors duration-200 hover:bg-muted">
       <Avatar>
-        <AvatarImage src={follower.avatar_url} alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage src={follower.avatar_url} alt={`@${follower.login}`} />
+        <AvatarFallback>{follower.login.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
 
       <div>
@@ -28,7 +28,8 @@ const FollowersCard = ({ follower }: { follower: GitFollowers }) => {
       </Button>
     </div>
   );
-};
+});
+
 const Followers = ({ username }: { username: string }) => {
   const { data } = useGetGithubFollowers(username);
 

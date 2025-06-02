@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useGetGithubRepositories } from '@/hooks/github-repositories';
 import { Item } from '@/@interfaces/github/project';
+import React from 'react';
 
 const languageStyles: Record<string, string> = {
   TypeScript: 'bg-blue-900 text-blue-300',
@@ -16,18 +17,18 @@ interface RepositoryStatProps {
   value: number;
 }
 
-const RepositoryStat: React.FC<RepositoryStatProps> = ({ icon: Icon, value }) => (
+const RepositoryStat: React.FC<RepositoryStatProps> = React.memo(({ icon: Icon, value }) => (
   <div className="flex items-center gap-1">
     <Icon className="text-sm" />
     <span>{value}</span>
   </div>
-);
+));
 
 interface RepositoryCardProps {
   repo: Item;
 }
 
-const RepositoryCard: React.FC<RepositoryCardProps> = ({ repo }) => {
+const RepositoryCard: React.FC<RepositoryCardProps> = React.memo(({ repo }) => {
   const languageStyle = languageStyles[repo.language || 'default'] || languageStyles.default;
 
   return (
@@ -59,7 +60,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repo }) => {
       </CardContent>
     </Card>
   );
-};
+});
 
 interface RepositoryMessageProps {
   message: string;

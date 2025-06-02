@@ -8,6 +8,7 @@ export function useGetGithubTopLangs(username: string) {
     queryFn: () => getGithubTopLangs(username),
     staleTime: FIFTEEN_MINUTES,
     gcTime: FIFTEEN_MINUTES * 2,
+    enabled: !!username,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

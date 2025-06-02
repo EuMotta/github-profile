@@ -8,6 +8,7 @@ export function useGetGithubFollowers(username: string) {
     queryFn: () => getGithubFollowers(username),
     staleTime: FIFTEEN_MINUTES,
     gcTime: FIFTEEN_MINUTES * 2,
+    enabled: !!username,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

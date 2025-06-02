@@ -2,6 +2,7 @@ import { MdHistory } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useGetGithubEvents } from '@/hooks/github-events';
+import React from 'react';
 
 interface GithubEvent {
   id: string;
@@ -57,7 +58,7 @@ interface ActivityItemProps {
   event: GithubEvent;
 }
 
-const ActivityItem: React.FC<ActivityItemProps> = ({ event }) => {
+const ActivityItem: React.FC<ActivityItemProps> = React.memo(({ event }) => {
   const { label, color } = eventConfig[event.type] || eventConfig.default;
 
   return (
@@ -73,7 +74,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ event }) => {
       <p className="text-sm text-muted-foreground">{getEventDescription(event)}</p>
     </div>
   );
-};
+});
+
 
 interface RecentActivityProps {
   username: string;

@@ -1,9 +1,12 @@
 'use client';
+import { GitContributions } from '@/@interfaces/github/contributions';
+import { useGetGithubContributions } from '@/hooks/github-contributions';
 import React from 'react';
-import { FaCalendar } from 'react-icons/fa';
-import { gitMock } from '@/constants/github';
 
-// Interface para tipagem dos dados de contribuição
+interface ContributionProps {
+  contributions: GitContributions;
+}
+
 interface ContributionDay {
   date: string;
   contributionCount: number;
@@ -20,18 +23,15 @@ interface ContributionData {
   contributionYears: number[];
 }
 
-// Interface para grupos de meses
 interface MonthGroup {
   month: string;
   weeks: { index: number; days: ContributionDay[] }[];
 }
 
-// Função para obter o nome do mês a partir de uma data
 const getMonthName = (dateStr: string): string => {
   return new Date(dateStr).toLocaleString('en-US', { month: 'short' });
 };
 
-// Função para agrupar semanas por mês
 const groupWeeksByMonth = (weeks: ContributionWeek[]): MonthGroup[] => {
   const monthGroups: MonthGroup[] = [];
   let currentMonth: string | null = null;
@@ -58,9 +58,8 @@ const groupWeeksByMonth = (weeks: ContributionWeek[]): MonthGroup[] => {
   return monthGroups;
 };
 
-// Função para determinar a cor com base na contagem de contribuições
 const getColorForContribution = (count: number, maxCount: number): string => {
-  if (count === 0) return 'bg-gray-100';
+  if (count === 0) return 'bg-white';
 
   const colors = ['bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-600'];
   if (maxCount === 0) return colors[0];
@@ -72,7 +71,6 @@ const getColorForContribution = (count: number, maxCount: number): string => {
   return colors[3];
 };
 
-// Componente para exibir a legenda de cores
 const ContributionLegend: React.FC = () => (
   <div className="mt-4 flex items-center justify-between">
     <div className="flex items-center gap-2 text-sm">
@@ -89,7 +87,6 @@ const ContributionLegend: React.FC = () => (
   </div>
 );
 
-// Componente para exibir uma célula de contribuição
 interface ContributionCellProps {
   day: ContributionDay | null;
   weekIndex: number;
@@ -127,78 +124,71 @@ const ContributionCell: React.FC<ContributionCellProps> = ({
   );
 };
 
-// Componente principal para exibir a página de contribuições
-const Contributions: React.FC = () => {
-  const data: ContributionData = gitMock.contributions.data.user.contributionsCollection;
+const ContributionsTable: React.FC<ContributionProps> = ({ contributions }) => {
+  const data: ContributionData = contributions.user.contributionsCollection;
+
   const monthGroups = groupWeeksByMonth(data.contributionCalendar.weeks);
+
   const maxCount = Math.max(
     ...data.contributionCalendar.weeks.flatMap((week) =>
       week.contributionDays.map((day) => day.contributionCount),
     ),
   );
+
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col">
       <main className="flex-grow">
-        <div className="p-6">
-          <div className="mx-auto">
-            <header className="mb-6 flex items-center justify-between">
-              <h2 className="text-xl font-bold">GitHub Contributions</h2>
-              <div className="flex items-center gap-2">
-                <FaCalendar />
-                <span>{data.contributionYears[0]}</span>
-              </div>
-            </header>
-            <div className="mb-6">
-              <table
-                role="grid"
-                aria-readonly="true"
-                className="w-full table-fixed border-spacing-1"
-                style={{ borderSpacing: '3px', overflow: 'hidden', position: 'relative' }}
-              >
-                <caption className="sr-only">Contribution Graph</caption>
-                <thead>
-                  <tr style={{ height: '13px' }}>
-                    <td style={{ width: '28px' }}>
-                      <span className="sr-only">Day of Week</span>
+        <div className="mx-auto">
+          <div className="mb-6">
+            <table
+              role="grid"
+              aria-readonly="true"
+              className="w-full table-fixed border-spacing-1"
+              style={{ borderSpacing: '3px', overflow: 'hidden', position: 'relative' }}
+            >
+              <caption className="sr-only">Contribution Graph</caption>
+              <thead>
+                <tr style={{ height: '13px' }}>
+                  <td style={{ width: '28px' }}>
+                    <span className="sr-only">Day of Week</span>
+                  </td>
+                  {monthGroups.map((group, index) => (
+                    <td
+                      key={index}
+                      className="ContributionCalendar-label border-x border-primary text-xs"
+                      colSpan={group.weeks.length}
+                      style={{ position: 'relative' }}
+                    >
+                      <span className="sr-only">{group.month}</span>
+                      <span aria-hidden="true" style={{ position: 'absolute', top: 0 }}>
+                        {group.month}
+                      </span>
                     </td>
-                    {monthGroups.map((group, index) => (
-                      <td
-                        key={index}
-                        className="ContributionCalendar-label border-x border-primary text-xs"
-                        colSpan={group.weeks.length}
-                        style={{ position: 'relative' }}
-                      >
-                        <span className="sr-only">{group.month}</span>
-                        <span aria-hidden="true" style={{ position: 'absolute', top: 0 }}>
-                          {group.month}
-                        </span>
-                      </td>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {daysOfWeek.map((day, rowIndex) => (
-                    <tr key={rowIndex} className="h-[10px]">
-                      <td className="border-y border-primary text-xs">{day}</td>
-                      {monthGroups.map((group) =>
-                        group.weeks.map((week) => (
-                          <ContributionCell
-                            key={`${week.index}-${rowIndex}`}
-                            day={week.days[rowIndex] || null}
-                            weekIndex={week.index}
-                            rowIndex={rowIndex}
-                            maxCount={maxCount}
-                          />
-                        )),
-                      )}
-                    </tr>
                   ))}
-                </tbody>
-              </table>
-              <ContributionLegend />
-            </div>
+                </tr>
+              </thead>
+              <tbody>
+                {daysOfWeek.map((day, rowIndex) => (
+                  <tr key={rowIndex} className="h-[10px]">
+                    <td className="border-y border-primary text-xs">{day}</td>
+                    {monthGroups.map((group) =>
+                      group.weeks.map((week) => (
+                        <ContributionCell
+                          key={`${week.index}-${rowIndex}`}
+                          day={week.days[rowIndex] || null}
+                          weekIndex={week.index}
+                          rowIndex={rowIndex}
+                          maxCount={maxCount}
+                        />
+                      )),
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <ContributionLegend />
           </div>
         </div>
       </main>
@@ -206,4 +196,4 @@ const Contributions: React.FC = () => {
   );
 };
 
-export default Contributions;
+export default ContributionsTable;

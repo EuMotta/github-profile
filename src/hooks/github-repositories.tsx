@@ -7,6 +7,7 @@ export function useGetGithubRepositories(username: string) {
     queryKey: [`get-github-repositories-${username}`],
     queryFn: () => getGithubRepositories(username),
     staleTime: FIFTEEN_MINUTES,
+    enabled: !!username,
     gcTime: FIFTEEN_MINUTES * 2,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
