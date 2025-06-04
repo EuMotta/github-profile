@@ -35,7 +35,7 @@ const Sidebar = ({ username }: { username: string }) => {
             )}
           </div>
 
-          <h1 className="mt-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-2xl font-bold tracking-tight text-transparent">
+          <h1 className="mt-4 text-primary  text-2xl font-bold tracking-tight">
             @{user?.login || 'indefinido'}
           </h1>
           <h2 className="mt-1 text-xl font-medium">{user?.name}</h2>
@@ -75,18 +75,15 @@ const Sidebar = ({ username }: { username: string }) => {
             <FaChartBar className="text-primary" />
             Stats Overview
           </h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-3 text-sm">
             {[
               { label: 'Repositories', value: user?.public_repos },
               { label: 'Followers', value: user?.followers },
               { label: 'Following', value: user?.following },
             ].map((stat, i) => (
-              <div
-                key={i}
-                className="rounded-lg bg-accent p-3 transition-colors duration-200 hover:bg-accent/80"
-              >
-                <div className="text-2xl font-bold text-secondary">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div key={i} className="flex justify-between">
+                <span className="text-muted-foreground">{stat.label}</span>
+                <span>{stat.value}</span>
               </div>
             ))}
           </div>
@@ -113,8 +110,8 @@ const Sidebar = ({ username }: { username: string }) => {
             </div>
           </div>
         </div>
-        <TopLangs username={username}/>
-        <Rank username={username}/>
+        <TopLangs username={username} />
+        <Rank username={username} />
       </GitCardContent>
     </GitCard>
   );

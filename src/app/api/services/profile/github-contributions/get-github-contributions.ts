@@ -1,4 +1,3 @@
-// src/lib/github-api.ts
 import { handleApiError } from '@/utils/handleApiError';
 import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
 import api from '../../api';

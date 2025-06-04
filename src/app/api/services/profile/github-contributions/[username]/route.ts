@@ -1,65 +1,90 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
 import { handleApiError } from '@/utils/handleApiError';
 
-const headers = {
-  Accept: 'application/vnd.github.cloak-preview+json',
-  Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-  'X-GitHub-Api-Version': '2022-11-28',
-};
+interface ContributionDay {
+  date: string;
+  contributionCount: number;
+}
 
-function calculateContributionStats(days: { date: string; contributionCount: number }[]) {
-  let stats = {
-    totalContributions: 0,
-    firstContribution: null as string | null,
-    currentStreak: { start: null as string | null, end: null as string | null, length: 0 },
-    longestStreak: { start: null as string | null, end: null as string | null, length: 0 },
-  };
+interface Streak {
+  start: string | null;
+  end: string | null;
+  length: number;
+}
 
-  let today = new Date().toISOString().split('T')[0];
+interface ContributionStats {
+  totalContributions: number;
+  firstContribution: string | null;
+  currentStreak: Streak;
+  longestStreak: Streak;
+  monthlyContributions: { month: string; count: number }[];
+}
+
+function calculateContributionStats(days: ContributionDay[]): ContributionStats {
+  let totalContributions = 0;
+  let firstContribution: string | null = null;
+  const monthlyMap: Record<string, number> = {};
+  const today = new Date().toISOString().slice(0, 10);
+
   let currentStreakLength = 0;
   let currentStreakStart: string | null = null;
+
+  const currentStreak: Streak = { start: today, end: today, length: 0 };
+  const longestStreak: Streak = { start: null, end: null, length: 0 };
 
   const sorted = [...days].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   for (const { date, contributionCount } of sorted) {
-    stats.totalContributions += contributionCount;
+    totalContributions += contributionCount;
+
+    const monthKey = date.slice(0, 7); // "YYYY-MM"
+    if (!monthlyMap[monthKey]) {
+      monthlyMap[monthKey] = 0;
+    }
+    monthlyMap[monthKey] += contributionCount;
 
     if (contributionCount > 0) {
-      if (currentStreakLength === 0) currentStreakStart = date;
-
+      if (currentStreakLength === 0) {
+        currentStreakStart = date;
+      }
       currentStreakLength++;
-      stats.currentStreak = {
-        start: currentStreakStart,
-        end: date,
-        length: currentStreakLength,
-      };
 
-      if (!stats.firstContribution) {
-        stats.firstContribution = date;
+      currentStreak.start = currentStreakStart;
+      currentStreak.end = date;
+      currentStreak.length = currentStreakLength;
+
+      if (!firstContribution) {
+        firstContribution = date;
       }
 
-      if (currentStreakLength > stats.longestStreak.length) {
-        stats.longestStreak = {
-          start: currentStreakStart,
-          end: date,
-          length: currentStreakLength,
-        };
+      if (currentStreakLength > longestStreak.length) {
+        longestStreak.start = currentStreakStart;
+        longestStreak.end = date;
+        longestStreak.length = currentStreakLength;
       }
     } else if (date !== today) {
       currentStreakLength = 0;
       currentStreakStart = null;
-      stats.currentStreak = { start: today, end: today, length: 0 };
+      currentStreak.start = today;
+      currentStreak.end = today;
+      currentStreak.length = 0;
     }
   }
 
-  return stats;
+  const monthlyContributions = Object.entries(monthlyMap)
+    .map(([month, count]) => ({ month, count }))
+    .sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime());
+
+  return {
+    totalContributions,
+    firstContribution,
+    currentStreak,
+    longestStreak,
+    monthlyContributions,
+  };
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { username: string } }
-) {
+export async function GET(request: NextRequest, { params }: { params: { username: string } }) {
   const { username } = params;
 
   try {
@@ -87,11 +112,7 @@ export async function GET(
       }
     `;
 
-    const variables = {
-      user: username,
-      start: startDate,
-      end: endDate,
-    };
+    const variables = { user: username, start: startDate, end: endDate };
 
     const graphQLRes = await fetch('https://api.github.com/graphql', {
       method: 'POST',
@@ -115,7 +136,7 @@ export async function GET(
         ...graphQLData.data,
         contributionStats: stats,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return handleApiError(error);

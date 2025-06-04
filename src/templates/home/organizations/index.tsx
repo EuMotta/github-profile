@@ -1,9 +1,11 @@
+'use client';
 import { MdFavorite } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useGetGithubOrgs } from '@/hooks/github-orgs';
 import { Response } from '@/components/common/response';
 import { Organization } from '@/@interfaces/github/organization';
 import React from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface OrganizationCardProps {
   org: Organization;
@@ -48,7 +50,7 @@ interface OrganizationsProps {
 }
 
 const Organizations: React.FC<OrganizationsProps> = ({ username }) => {
-  const { data: organizations } = useGetGithubOrgs(username);
+  const { data: organizations, isLoading, isError, error } = useGetGithubOrgs(username);
 
   return (
     <Card>
@@ -60,6 +62,12 @@ const Organizations: React.FC<OrganizationsProps> = ({ username }) => {
       </CardHeader>
       <CardContent>
         <div className="max-h-96 space-y-4 overflow-auto">
+          {isError && (
+            <Response image="/stickers/sad.png" title="Oops!" description={error.message} />
+          )}
+
+          {isLoading && Array.from({ length: 2 }, (_, i) => <Skeleton key={i} className="h-32" />)}
+
           {organizations?.length === 0 && (
             <Response
               image="/stickers/sad.png"

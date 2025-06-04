@@ -1,3 +1,4 @@
+'use client';
 import { MdHistory } from 'react-icons/md';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

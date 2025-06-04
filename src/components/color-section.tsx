@@ -40,11 +40,8 @@ const ColorSection: React.FC = () => {
         </SheetTrigger>
         <SheetContent className="!max-w-2xl">
           <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription>
+            <SheetTitle>Theme Selector</SheetTitle>
+            <SheetDescription></SheetDescription>
           </SheetHeader>
           <ColorSelector />
         </SheetContent>

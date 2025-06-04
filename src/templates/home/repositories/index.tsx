@@ -1,15 +1,43 @@
+'use client';
 import { FaCode, FaCodeBranch, FaEye, FaFilter, FaSearch, FaStar } from 'react-icons/fa';
-import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useGetGithubRepositories } from '@/hooks/github-repositories';
 import { Item } from '@/@interfaces/github/project';
 import React from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Response } from '@/components/common/response';
 
 const languageStyles: Record<string, string> = {
   TypeScript: 'bg-blue-900 text-blue-300',
   JavaScript: 'bg-yellow-900 text-yellow-300',
-  default: 'bg-purple-900 text-purple-300',
+  Python: 'bg-indigo-900 text-indigo-300',
+  Java: 'bg-red-900 text-red-300',
+  C: 'bg-gray-800 text-gray-300',
+  'C++': 'bg-sky-900 text-sky-300',
+  'C#': 'bg-purple-900 text-purple-300',
+  Go: 'bg-cyan-900 text-cyan-300',
+  Rust: 'bg-orange-900 text-orange-300',
+  Ruby: 'bg-rose-900 text-rose-300',
+  PHP: 'bg-indigo-800 text-indigo-200',
+  Swift: 'bg-orange-700 text-orange-200',
+  Kotlin: 'bg-purple-800 text-purple-200',
+  Dart: 'bg-sky-800 text-sky-200',
+  HTML: 'bg-orange-800 text-orange-300',
+  CSS: 'bg-blue-800 text-blue-200',
+  SCSS: 'bg-pink-900 text-pink-300',
+  Shell: 'bg-green-900 text-green-300',
+  Bash: 'bg-green-900 text-green-300',
+  JSON: 'bg-neutral-800 text-neutral-300',
+  YAML: 'bg-amber-900 text-amber-300',
+  Markdown: 'bg-gray-700 text-gray-300',
+  SQL: 'bg-teal-900 text-teal-300',
+  R: 'bg-sky-950 text-sky-300',
+  Perl: 'bg-fuchsia-900 text-fuchsia-300',
+  Lua: 'bg-blue-950 text-blue-200',
+  Haskell: 'bg-violet-900 text-violet-300',
+  Elixir: 'bg-purple-950 text-purple-300',
+  default: 'bg-zinc-800 text-zinc-300',
 };
 
 interface RepositoryStatProps {
@@ -49,10 +77,10 @@ const RepositoryCard: React.FC<RepositoryCardProps> = React.memo(({ repo }) => {
         </div>
       </CardHeader>
       <CardContent className="p-0">
-        <p className="mt-2 line-clamp-2 text-sm text-gray-400">
+        <p className="mt-2 line-clamp-2 text-sm">
           {repo.description || 'No description available'}
         </p>
-        <div className="mt-4 flex items-center space-x-4 text-sm text-gray-400">
+        <div className="mt-4 flex items-center space-x-4 text-sm">
           <RepositoryStat icon={FaStar} value={repo.stargazers_count} />
           <RepositoryStat icon={FaCodeBranch} value={repo.forks_count} />
           <RepositoryStat icon={FaEye} value={repo.watchers_count} />
@@ -62,12 +90,12 @@ const RepositoryCard: React.FC<RepositoryCardProps> = React.memo(({ repo }) => {
   );
 });
 
-interface RepositoryMessageProps {
+interface MessageProps {
   message: string;
 }
 
-const RepositoryMessage: React.FC<RepositoryMessageProps> = ({ message }) => (
-  <p className="col-span-full text-center text-gray-400">{message}</p>
+export const Message: React.FC<MessageProps> = ({ message }) => (
+  <p className="col-span-full text-center text-primary">{message}</p>
 );
 
 interface RepositoriesProps {
@@ -75,7 +103,7 @@ interface RepositoriesProps {
 }
 
 const Repositories: React.FC<RepositoriesProps> = ({ username }) => {
-  const { data, isError, error } = useGetGithubRepositories(username);
+  const { data, isError, error, isLoading } = useGetGithubRepositories(username);
 
   return (
     <Card>
@@ -96,11 +124,20 @@ const Repositories: React.FC<RepositoriesProps> = ({ username }) => {
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
-        {isError && <RepositoryMessage message={error.message} />}
-        {data?.items?.length === 0 && <RepositoryMessage message="No public repositories found" />}
+        {isError && (
+          <Response image="/stickers/sad.png" title="Oops!" description={error.message} />
+        )}
+
+        {data?.items?.length === 0 && (
+          <Response image="/stickers/sad.png" title="Oops!" description="No repositories found" />
+        )}
+
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {isLoading && Array.from({ length: 4 }, (_, i) => <Skeleton key={i} className="h-32" />)}
+
           {data?.items?.map((repo) => <RepositoryCard key={repo.id} repo={repo} />)}
         </div>
+
         <Button asChild className="w-full">
           <a href={`https://github.com/${username}?tab=repositories`}>View All Repositories</a>
         </Button>

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getSession } from 'next-auth/react';
 
 import Axios, { AxiosRequestConfig } from 'axios';
 
@@ -23,10 +22,7 @@ export const AXIOS_INSTANCE = Axios.create({ baseURL: process.env.API_URL });
  * @returns {Promise<T>} - Uma promessa que resolve com os dados da resposta.
  */
 
-const http = <T>(
-  config: AxiosRequestConfig,
-  options?: AxiosRequestConfig,
-): Promise<T> => {
+const http = <T>(config: AxiosRequestConfig, options?: AxiosRequestConfig): Promise<T> => {
   const source = Axios.CancelToken.source();
   const promise = AXIOS_INSTANCE({
     ...config,
@@ -50,10 +46,5 @@ export default http;
  */
 
 AXIOS_INSTANCE.interceptors.request.use(async (request) => {
-  const session = await getSession();
-  if (session?.token) {
-    request.headers.Authorization = `Bearer ${session.token}`;
-  }
-
   return request;
 });
