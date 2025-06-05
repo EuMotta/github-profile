@@ -1,5 +1,8 @@
-import { Book, Menu, Sunset, Trees, Zap } from 'lucide-react';
+import Image from 'next/image';
 
+import ColorSection from '@/components/color-section';
+import SearchGitInput from '@/components/input/search-git-input';
+import Logo from '@/components/logo';
 import {
   Accordion,
   AccordionContent,
@@ -15,18 +18,9 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-button';
-import ColorSection from '@/components/color-section';
-import Image from 'next/image';
-import Logo from '@/components/logo';
-import SearchGitInput from '@/components/input/search-git-input';
+import { Book, Menu, Sunset, Trees, Zap } from 'lucide-react';
 
 interface MenuItem {
   title: string;
@@ -57,9 +51,7 @@ interface Navbar1Props {
 }
 
 const Navbar1 = ({
-  menu = [
-    { title: 'About', url: '/' },
-  ],
+  menu = [{ title: 'About', url: '/' }],
   auth = {
     login: { title: 'Login', url: '#' },
     signup: { title: 'Sign up', url: '#' },
@@ -73,9 +65,7 @@ const Navbar1 = ({
             <Logo />
             <div className="flex items-center">
               <NavigationMenu>
-                <NavigationMenuList>
-                  {menu.map((item) => renderMenuItem(item))}
-                </NavigationMenuList>
+                <NavigationMenuList>{menu.map((item) => renderMenuItem(item))}</NavigationMenuList>
               </NavigationMenu>
             </div>
           </div>
@@ -102,16 +92,12 @@ const Navbar1 = ({
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
+                  <Accordion type="single" collapsible className="flex w-full flex-col gap-4">
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                     <SearchGitInput />
+                    <SearchGitInput />
                     <ThemeToggle />
                     <ColorSection />
                   </div>
@@ -186,9 +172,7 @@ const SubMenuLink = ({ item }: { item: MenuItem }) => {
       <div>
         <div className="text-sm font-semibold">{item.title}</div>
         {item.description && (
-          <p className="text-sm leading-snug text-muted-foreground">
-            {item.description}
-          </p>
+          <p className="text-sm leading-snug text-muted-foreground">{item.description}</p>
         )}
       </div>
     </a>

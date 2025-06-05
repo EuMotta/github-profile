@@ -1,10 +1,12 @@
-import { getGithubProfile } from './profile/github-profile/get-github-profile';
 import axios, { AxiosError } from 'axios';
+
 import calculateRank from '@/utils/calculate-rank';
+
 import { errorList } from '@/constants';
 
-const LAST_FETCH_KEY = (username: string) =>
-  `github_stats_${username}_last_fetch`;
+import { getGithubProfile } from './profile/github-profile/get-github-profile';
+
+const LAST_FETCH_KEY = (username: string) => `github_stats_${username}_last_fetch`;
 const CACHED_DATA_KEY = (username: string) => `github_stats_${username}_data`;
 
 export async function getGithubStats(username: string) {
@@ -20,30 +22,20 @@ export async function getGithubStats(username: string) {
   }
 
   try {
-    console.log('fetching stats for', username);
+    // console.log('fetching stats for', username);
     const headers = {
       Accept: 'application/vnd.github.cloak-preview+json',
     };
 
-    const [commitsRes, prsRes, issuesRes, reposRes, userRes] =
-      await Promise.all([
-        axios.get(
-          `https://api.github.com/search/commits?q=author:${username}`,
-          {
-            headers,
-          },
-        ),
-        axios.get(
-          `https://api.github.com/search/issues?q=type:pr+author:${username}`,
-        ),
-        axios.get(
-          `https://api.github.com/search/issues?q=type:issue+author:${username}`,
-        ),
-        axios.get(
-          `https://api.github.com/users/${username}/repos?per_page=100`,
-        ),
-        getGithubProfile(username),
-      ]);
+    const [commitsRes, prsRes, issuesRes, reposRes, userRes] = await Promise.all([
+      axios.get(`https://api.github.com/search/commits?q=author:${username}`, {
+        headers,
+      }),
+      axios.get(`https://api.github.com/search/issues?q=type:pr+author:${username}`),
+      axios.get(`https://api.github.com/search/issues?q=type:issue+author:${username}`),
+      axios.get(`https://api.github.com/users/${username}/repos?per_page=100`),
+      getGithubProfile(username),
+    ]);
 
     const totalCommits = commitsRes.data.total_count ?? 0;
     const totalPRs = prsRes.data.total_count ?? 0;

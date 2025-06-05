@@ -1,6 +1,7 @@
 import { getGithubRepositories } from '@/app/api/services/profile/github-repositories/get-github-repositories';
-import { FIFTEEN_MINUTES } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
+
+import { FIFTEEN_MINUTES } from '@/constants';
 
 export function useGetGithubRepositories(username: string) {
   return useQuery({

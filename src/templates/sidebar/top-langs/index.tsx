@@ -1,6 +1,7 @@
-import { useGetGithubTopLangs } from '@/hooks/github-top-langs';
 import React from 'react';
 import { FaCode } from 'react-icons/fa';
+
+import { useGetGithubTopLangs } from '@/hooks/github-top-langs';
 
 const TopLangs = ({ username }: { username: string }) => {
   const { data: langs } = useGetGithubTopLangs(username);
@@ -11,9 +12,9 @@ const TopLangs = ({ username }: { username: string }) => {
           <FaCode className="text-primary" />
           Languages
         </h3>
-        <div className="space-y-3 text-sm max-h-96 overflow-auto">
+        <div className="max-h-96 space-y-3 overflow-auto text-sm">
           {langs?.map((lang, index) => (
-            <div className="flex justify-between">
+            <div key={index} className="flex justify-between">
               <span>{lang.name}</span>
               <span>{lang.percentage}</span>
             </div>

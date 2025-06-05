@@ -1,13 +1,15 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
+import { FaInfo } from 'react-icons/fa';
+
+import SearchGitInput from '@/components/input/search-git-input';
+import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronRight, ExternalLink, Github } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import SearchGitInput from '@/components/input/search-git-input';
-import { FaInfo } from 'react-icons/fa';
 
 export default function Hero() {
   return (
@@ -30,9 +32,7 @@ export default function Hero() {
               <span className="mr-2 rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-white">
                 Sempre
               </span>
-              <span className="text-muted-foreground">
-                Melhorando sua experiência visual
-              </span>
+              <span className="text-muted-foreground">Melhorando sua experiência visual</span>
               <ChevronRight className="ml-1 h-4 w-4 text-muted-foreground" />
             </div>
           </motion.div>
@@ -43,8 +43,8 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-balance bg-gradient-to-tl from-primary/20 via-foreground/85 to-foreground/50 bg-clip-text text-center text-4xl tracking-tighter text-transparent sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            Mostre seu perfil no <span className="text-gradient">GitHub</span>{' '}
-            de forma personalizada
+            Mostre seu perfil no <span className="text-gradient">GitHub</span> de forma
+            personalizada
           </motion.h1>
 
           <motion.p
@@ -53,9 +53,8 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground"
           >
-            Crie um perfil do GitHub único e impressionante com facilidade.
-            Adicione seções customizadas, badges interativos, gráficos de
-            contribuição e muito mais.
+            Crie um perfil do GitHub único e impressionante com facilidade. Adicione seções
+            customizadas, badges interativos, gráficos de contribuição e muito mais.
           </motion.p>
 
           <motion.div
@@ -66,11 +65,7 @@ export default function Hero() {
           >
             <SearchGitInput />
 
-            <Button
-              variant="outline"
-              size="lg"
-              className="flex items-center gap-2 border-border"
-            >
+            <Button variant="outline" size="lg" className="flex items-center gap-2 border-border">
               <FaInfo size={10} />
               Sobre o projeto
             </Button>
@@ -100,12 +95,7 @@ export default function Hero() {
                 </div>
               </div>
               <div className="relative">
-                <Image
-                  src={'/hero.png'}
-                  width={1700}
-                  height={1700}
-                  alt="Hero"
-                />
+                <Image src={'/hero.png'} width={1700} height={1700} alt="Hero" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-0"></div>
               </div>
             </div>

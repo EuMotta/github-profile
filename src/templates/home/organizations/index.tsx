@@ -1,9 +1,12 @@
-import { MdFavorite } from 'react-icons/md';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGetGithubOrgs } from '@/hooks/github-orgs';
-import { Response } from '@/components/common/response';
-import { Organization } from '@/@interfaces/github/organization';
+'use client';
 import React from 'react';
+import { MdFavorite } from 'react-icons/md';
+
+import { Organization } from '@/@interfaces/github/organization';
+import { Response } from '@/components/common/response';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useGetGithubOrgs } from '@/hooks/github-orgs';
 
 interface OrganizationCardProps {
   org: Organization;
@@ -43,12 +46,14 @@ const OrganizationCard: React.FC<OrganizationCardProps> = React.memo(({ org }) =
   </Card>
 ));
 
+OrganizationCard.displayName = 'OrganizationCard';
+
 interface OrganizationsProps {
   username: string;
 }
 
 const Organizations: React.FC<OrganizationsProps> = ({ username }) => {
-  const { data: organizations } = useGetGithubOrgs(username);
+  const { data: organizations, isLoading, isError, error } = useGetGithubOrgs(username);
 
   return (
     <Card>
@@ -60,6 +65,12 @@ const Organizations: React.FC<OrganizationsProps> = ({ username }) => {
       </CardHeader>
       <CardContent>
         <div className="max-h-96 space-y-4 overflow-auto">
+          {isError && (
+            <Response image="/stickers/sad.png" title="Oops!" description={error.message} />
+          )}
+
+          {isLoading && Array.from({ length: 2 }, (_, i) => <Skeleton key={i} className="h-32" />)}
+
           {organizations?.length === 0 && (
             <Response
               image="/stickers/sad.png"

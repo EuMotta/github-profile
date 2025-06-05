@@ -1,38 +1,40 @@
-"use client";
+/* eslint-disable react/no-unknown-property */
+'use client';
 
-import type React from "react";
-import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, Code, Star, ExternalLink } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { Particles } from "@/components/ui/particles";
-import { Spotlight } from "@/components/ui/spotlight";
-import { useTheme } from "next-themes";
-import { Bricolage_Grotesque } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { useTheme } from 'next-themes';
+import { Bricolage_Grotesque } from 'next/font/google';
+import Image from 'next/image';
+import type React from 'react';
+import { useState, useEffect } from 'react';
+
+import { Particles } from '@/components/ui/particles';
+import { Spotlight } from '@/components/ui/spotlight';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Sparkles, Code, Star, ExternalLink } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 
 const brico = Bricolage_Grotesque({
-  subsets: ["latin"],
+  subsets: ['latin'],
 });
 
-// Sample users for the waitlist display
 const users = [
-  { imgUrl: "https://i.pravatar.cc/150?img=3" },
-  { imgUrl: "https://i.pravatar.cc/150?img=13" },
-  { imgUrl: "https://i.pravatar.cc/150?img=23" },
-  { imgUrl: "https://i.pravatar.cc/150?img=33" },
+  { imgUrl: 'https://i.pravatar.cc/150?img=3' },
+  { imgUrl: 'https://i.pravatar.cc/150?img=13' },
+  { imgUrl: 'https://i.pravatar.cc/150?img=23' },
+  { imgUrl: 'https://i.pravatar.cc/150?img=33' },
 ];
 
 export default function CallToAction() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
-  const [color, setColor] = useState("#ffffff");
+  const [color, setColor] = useState('#ffffff');
 
   useEffect(() => {
-    setColor(resolvedTheme === "dark" ? "#ffffff" : "#e60a64");
+    setColor(resolvedTheme === 'dark' ? '#ffffff' : '#e60a64');
   }, [resolvedTheme]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,24 +42,16 @@ export default function CallToAction() {
     setIsSubmitting(true);
     setError(null);
 
-    // Your form submission logic here
-    // For now, let's just simulate a delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setSubmitted(true);
     setIsSubmitting(false);
   };
 
   return (
-    <main className="relative flex min-h-screen w-full items-center justify-center overflow-hidden max-w-screen">
+    <main className="max-w-screen relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <Spotlight />
 
-      <Particles
-        className="absolute inset-0 z-0"
-        quantity={100}
-        ease={80}
-        refresh
-        color={color}
-      />
+      <Particles className="absolute inset-0 z-0" quantity={100} ease={80} refresh color={color} />
 
       <div className="relative z-[100] mx-auto max-w-2xl px-4 py-16 text-center">
         {/* Badge */}
@@ -67,11 +61,7 @@ export default function CallToAction() {
           transition={{ duration: 0.5 }}
           className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/10 bg-gradient-to-r from-primary/15 to-primary/5 px-4 py-2 backdrop-blur-sm"
         >
-          <img
-            src="https://i.postimg.cc/vHnf0qZF/logo.webp"
-            alt="logo"
-            className="spin h-6 w-6"
-          />
+          <img src="https://i.postimg.cc/vHnf0qZF/logo.webp" alt="logo" className="spin h-6 w-6" />
           <span className="text-sm font-medium">Mvpblocks</span>
           <motion.div
             animate={{ x: [0, 5, 0] }}
@@ -86,11 +76,11 @@ export default function CallToAction() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
           className={cn(
-            "mb-4 cursor-crosshair bg-gradient-to-b from-foreground via-foreground/80 to-foreground/40 bg-clip-text text-4xl font-bold text-transparent sm:text-7xl",
+            'mb-4 cursor-crosshair bg-gradient-to-b from-foreground via-foreground/80 to-foreground/40 bg-clip-text text-4xl font-bold text-transparent sm:text-7xl',
             brico.className,
           )}
         >
-          Join the{" "}
+          Join the{' '}
           <span className="bg-primary from-foreground via-rose-300 to-primary bg-clip-text text-transparent dark:bg-gradient-to-b">
             Waitlist
           </span>
@@ -104,8 +94,7 @@ export default function CallToAction() {
           className="mb-12 mt-2 text-muted-foreground sm:text-lg"
         >
           Be the first to access our revolutionary component library.
-          <br className="hidden sm:block" /> Build your MVP faster than ever
-          before.
+          <br className="hidden sm:block" /> Build your MVP faster than ever before.
         </motion.p>
 
         <motion.div
@@ -116,8 +105,8 @@ export default function CallToAction() {
         >
           <div
             className={cn(
-              "flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md",
-              resolvedTheme === "dark" ? "glass" : "glass2",
+              'flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md',
+              resolvedTheme === 'dark' ? 'glass' : 'glass2',
             )}
           >
             <Code className="mb-2 h-5 w-5 text-primary" />
@@ -127,8 +116,8 @@ export default function CallToAction() {
 
           <div
             className={cn(
-              "flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md",
-              resolvedTheme === "dark" ? "glass" : "glass2",
+              'flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md',
+              resolvedTheme === 'dark' ? 'glass' : 'glass2',
             )}
           >
             <ExternalLink className="mb-2 h-5 w-5 text-primary" />
@@ -138,8 +127,8 @@ export default function CallToAction() {
 
           <div
             className={cn(
-              "flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md",
-              resolvedTheme === "dark" ? "glass" : "glass2",
+              'flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md',
+              resolvedTheme === 'dark' ? 'glass' : 'glass2',
             )}
           >
             <Star className="mb-2 h-5 w-5 text-primary" />
@@ -149,8 +138,8 @@ export default function CallToAction() {
 
           <div
             className={cn(
-              "flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md sm:hidden",
-              resolvedTheme === "dark" ? "glass" : "glass2",
+              'flex flex-col items-center justify-center rounded-xl border border-primary/10 bg-white/5 p-4 backdrop-blur-md sm:hidden',
+              resolvedTheme === 'dark' ? 'glass' : 'glass2',
             )}
           >
             <Code className="mb-2 h-5 w-5 text-primary" />
@@ -181,9 +170,7 @@ export default function CallToAction() {
                     id="email"
                     placeholder="Enter your email"
                     value={email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setEmail(e.target.value)
-                    }
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     required
                     className="w-full rounded-xl border border-primary/20 bg-white/5 px-6 py-4 text-foreground backdrop-blur-md transition-all placeholder:text-muted-foreground/70 focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
@@ -203,7 +190,7 @@ export default function CallToAction() {
                   className="group relative overflow-hidden rounded-xl bg-gradient-to-b from-rose-500 to-rose-700 px-8 py-4 font-semibold text-primary-foreground text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset] transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] focus:outline-none focus:ring-2 focus:ring-primary/50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isSubmitting ? "Joining..." : "Join Waitlist"}
+                    {isSubmitting ? 'Joining...' : 'Join Waitlist'}
                     <Sparkles className="h-4 w-4 transition-all duration-300 group-hover:rotate-12" />
                   </span>
                   <span className="absolute inset-0 z-0 bg-gradient-to-r from-rose-500 to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
@@ -217,13 +204,12 @@ export default function CallToAction() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.6 }}
                 className={cn(
-                  "flex-1 cursor-pointer rounded-xl border border-primary/20 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 px-6 py-4 font-medium text-primary backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] active:brightness-125",
-                  resolvedTheme === "dark" ? "glass" : "glass2",
+                  'flex-1 cursor-pointer rounded-xl border border-primary/20 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 px-6 py-4 font-medium text-primary backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] active:brightness-125',
+                  resolvedTheme === 'dark' ? 'glass' : 'glass2',
                 )}
               >
                 <span className="flex items-center justify-center gap-2">
-                  Thanks for joining!{" "}
-                  <Sparkles className="h-4 w-4 animate-pulse" />
+                  Thanks for joining! <Sparkles className="h-4 w-4 animate-pulse" />
                 </span>
               </motion.div>
             )}
@@ -263,8 +249,7 @@ export default function CallToAction() {
             transition={{ duration: 0.5, delay: 1.3 }}
             className="ml-2 text-muted-foreground"
           >
-            <span className="font-semibold text-primary">100+</span> already
-            joined ✨
+            <span className="font-semibold text-primary">100+</span> already joined ✨
           </motion.span>
         </motion.div>
       </div>

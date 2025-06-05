@@ -7,10 +7,7 @@ interface ErrorStateProps {
   reset: () => void;
 }
 
-const Error: React.FC<ErrorStateProps> = ({
-  error,
-  reset,
-}: ErrorStateProps) => {
+const Error: React.FC<ErrorStateProps> = ({ error, reset }: ErrorStateProps) => {
   return (
     <EmptyState
       title="Aconteceu um problema!"

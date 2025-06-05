@@ -1,8 +1,11 @@
-import { MdHistory } from 'react-icons/md';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useGetGithubEvents } from '@/hooks/github-events';
+/* eslint-disable no-case-declarations */
+'use client';
 import React from 'react';
+import { MdHistory } from 'react-icons/md';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useGetGithubEvents } from '@/hooks/github-events';
 
 interface GithubEvent {
   id: string;
@@ -76,6 +79,7 @@ const ActivityItem: React.FC<ActivityItemProps> = React.memo(({ event }) => {
   );
 });
 
+ActivityItem.displayName = 'ActivityItem';
 
 interface RecentActivityProps {
   username: string;

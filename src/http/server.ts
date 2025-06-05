@@ -1,8 +1,6 @@
 import 'server-only';
-import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 type MutatorConfig = {
@@ -15,11 +13,7 @@ type MutatorConfig = {
 
 const API_URL = process.env.API_URL!;
 
-async function withRetry<T>(
-  fn: () => Promise<T>,
-  retries = 4,
-  delayMs = 300
-): Promise<T> {
+async function withRetry<T>(fn: () => Promise<T>, retries = 4, delayMs = 300): Promise<T> {
   let lastError: any;
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
@@ -39,27 +33,25 @@ export default async function serverClientFactory<T>({
   method,
   body,
   params,
-  headers
+  headers,
 }: MutatorConfig): Promise<T> {
-  const session = await getServerSession(authOptions);
-  const tag = url.split('/')[1] || 'default';
-
   const commonHeaders = {
     'Content-Type': 'application/json',
-    ...(session?.token ? { Authorization: `Bearer ${session.token}` } : {}),
-    ...headers
+
+    ...headers,
   };
 
   if (method === 'get') {
     const fetchOnce = async () => {
+      console.log(`[FETCH] Realizando fetch para ${url} com tag "${url}"`);
       const query = params ? `?${new URLSearchParams(params).toString()}` : '';
       const res = await fetch(`${API_URL}${url}${query}`, {
         method: 'GET',
         headers: commonHeaders,
         next: {
-          tags: [tag],
-          revalidate: false
-        }
+          tags: [url],
+          revalidate: 900,
+        },
       });
 
       const data = await res.json();
@@ -70,7 +62,10 @@ export default async function serverClientFactory<T>({
         throw err;
       }
 
-      return data as T;
+      return {
+        ...data,
+        serverTimestamp: new Date().toISOString(),
+      } as T & { serverTimestamp: string };
     };
 
     return withRetry(fetchOnce, 4, 400);
@@ -81,7 +76,7 @@ export default async function serverClientFactory<T>({
     method,
     data: body,
     params,
-    headers: commonHeaders
+    headers: commonHeaders,
   };
 
   const axiosOnce = async () => {
@@ -97,7 +92,8 @@ export default async function serverClientFactory<T>({
   const result = await withRetry(axiosOnce, 4, 400);
 
   if (['post', 'put', 'patch', 'delete'].includes(method)) {
-    revalidateTag(tag);
+    // console.log(`Revalidating tag: ${url}`);
+    revalidateTag(url);
   }
 
   return result;

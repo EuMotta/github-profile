@@ -1,7 +1,8 @@
-// src/lib/github-api.ts
 import { GitEvents } from '@/@interfaces/github/events';
-import { handleApiError } from '@/utils/handleApiError';
+
 import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
+import { handleApiError } from '@/utils/handleApiError';
+
 import api from '../../api';
 
 export async function getGithubEvents(username: string): Promise<GitEvents[]> {
@@ -12,7 +13,7 @@ export async function getGithubEvents(username: string): Promise<GitEvents[]> {
   }
 
   try {
-    console.log(`Fetching events for ${username}`);
+    // console.log(`Fetching events for ${username}`);
     const response = await api.get<GitEvents[]>(`/api/services/profile/github-events/${username}`);
 
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());

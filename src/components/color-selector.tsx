@@ -1,6 +1,9 @@
 'use client';
+
 import { useTheme } from 'next-themes';
-import React from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { FaSliders } from 'react-icons/fa6';
 
 import {
   Card,
@@ -26,10 +29,31 @@ const ColorSelector: React.FC = () => {
   const [config, setConfig] = useConfig();
   const [mounted, setMounted] = React.useState(false);
   const { resolvedTheme: mode } = useTheme();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
+
+  const updateTheme = (themeName: string) => {
+    const selectedTheme = themes.find((theme) => theme.name === themeName);
+    if (!selectedTheme) return;
+
+    setConfig({
+      ...config,
+      theme: selectedTheme.name,
+      cssVars: {
+        ...selectedTheme.cssVars,
+        light: { ...selectedTheme.cssVars.light },
+        dark: { ...selectedTheme.cssVars.dark },
+      },
+    });
+
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('theme', themeName);
+    router.push(`?${newParams.toString()}`);
+  };
 
   return (
     <div>
@@ -37,27 +61,12 @@ const ColorSelector: React.FC = () => {
         {themes.map((theme) => {
           const isActive = config.theme === theme.name;
           const primaryHsl =
-            theme.cssVars?.[mode === 'dark' ? 'dark' : 'light']?.primary ??
-            '0 0% 50%';
+            theme.cssVars?.[mode === 'dark' ? 'dark' : 'light']?.primary ?? '0 0% 50%';
 
           return mounted ? (
             <Card
               key={theme.name}
-              onClick={() => {
-                setConfig({
-                  ...config,
-                  theme: theme.name,
-                  cssVars: {
-                    ...theme.cssVars,
-                    light: {
-                      ...theme.cssVars.light,
-                    },
-                    dark: {
-                      ...theme.cssVars.dark,
-                    },
-                  },
-                });
-              }}
+              onClick={() => updateTheme(theme.name)}
               className={cn(
                 'cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md',
                 isActive ? 'border-primary ring-2 ring-primary' : '',
@@ -81,22 +90,17 @@ const ColorSelector: React.FC = () => {
                   />
                 </div>
                 <div className="mt-2 flex space-x-1">
-                  {[
-                    'primary',
-                    'secondary',
-                    'accent',
-                    'muted',
-                    'destructive',
-                  ].map((key) => (
+                  {['primary', 'secondary', 'accent', 'muted', 'destructive'].map((key) => (
                     <div
                       key={key}
                       className="h-3 w-3 rounded-full"
                       style={{
                         backgroundColor: `hsl(${
                           (
-                            theme.cssVars?.[
-                              mode === 'dark' ? 'dark' : 'light'
-                            ] as Record<string, string>
+                            theme.cssVars?.[mode === 'dark' ? 'dark' : 'light'] as Record<
+                              string,
+                              string
+                            >
                           )?.[key] ?? '0 0% 50%'
                         })`,
                       }}
@@ -110,29 +114,33 @@ const ColorSelector: React.FC = () => {
           );
         })}
       </div>
-      <Slider
-        defaultValue={[Number(config.cssVars.light.radius ?? 0)]}
-        max={50}
-        step={1}
-        onValueChange={(value) => {
-          const radius = `${value[0]}px`;
+      <div className="mb-4">
+        <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
+          <FaSliders className="text-primary" />
+          Radius
+        </h3>
+        <Slider
+          defaultValue={[parseInt(config.cssVars.light.radius || '0')]}
+          max={50}
+          step={1}
+          onValueChange={(value) => {
+            const radiusValue = `${value[0]}px`;
 
-          setConfig({
-            ...config,
-            cssVars: {
-              ...config.cssVars,
-              light: {
-                ...config.cssVars.light,
-                radius,
+            setConfig({
+              ...config,
+              cssVars: {
+                ...config.cssVars,
+                light: { ...config.cssVars.light, radius: radiusValue },
+                dark: { ...config.cssVars.dark, radius: radiusValue },
               },
-              dark: {
-                ...config.cssVars.dark,
-                radius,
-              },
-            },
-          });
-        }}
-      />
+            });
+
+            const newParams = new URLSearchParams(searchParams);
+            newParams.set('radius', `${value[0]}`);
+            router.push(`?${newParams.toString()}`);
+          }}
+        />
+      </div>
 
       <div className="space-y-4 rounded-lg border bg-muted p-4">
         <h3 className="text-lg font-medium">Preview</h3>
@@ -158,8 +166,7 @@ const ColorSelector: React.FC = () => {
           <span className="text-xs">60%</span>
         </div>
       </div>
-
-      <div className="mt-6 space-y-4">
+      {/*  <div className="mt-6 space-y-4">
         <Label className="font-medium">Custom Theme</Label>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {['Primary', 'Secondary', 'Background', 'Text'].map((label, i) => (
@@ -178,7 +185,7 @@ const ColorSelector: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

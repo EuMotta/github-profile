@@ -17,7 +17,7 @@ export default function Loading() {
           />
         </div>
       </div>
-      <span className="bg-gradient-to-r text-2xl from-blue-600 via-purple-600 to-orange-600 bg-clip-text text-transparent">
+      <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 bg-clip-text text-2xl text-transparent">
         Carregando...
       </span>
     </div>

@@ -1,18 +1,14 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { FaArrowRight, FaMagic } from 'react-icons/fa';
+
 import '@/styles/home.css';
-import SearchGitInput from '@/components/input/search-git-input';
-import Image from 'next/image';
+
 import Feature from '@/templates/features';
-import CallToAction from '@/templates/homepage/call-to-action';
 import Hero from '@/templates/homepage/hero';
-import Team from '@/templates/homepage/team';
 const page = () => {
   return (
     <div>
       <div className="container mx-auto">
-       {/*  <div className="p-8">
+        {/*  <div className="p-8">
           <div className="relative">
             <div className="absolute -top-40 right-40 h-96 w-96 animate-pulse rounded-full bg-orange-500 bg-opacity-20 opacity-20 blur-3xl"></div>
             <div className="absolute -left-40 top-20 h-96 w-96 animate-pulse rounded-full bg-primary/20 bg-opacity-20 opacity-20 blur-3xl"></div>

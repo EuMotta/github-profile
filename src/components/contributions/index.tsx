@@ -1,7 +1,9 @@
 'use client';
-import { GitContributions } from '@/@interfaces/github/contributions';
-import { useGetGithubContributions } from '@/hooks/github-contributions';
 import React from 'react';
+
+import { GitContributions } from '@/@interfaces/github/contributions';
+
+import formatDate from '@/utils/datetime';
 
 interface ContributionProps {
   contributions: GitContributions;
@@ -25,28 +27,33 @@ interface ContributionData {
 
 interface MonthGroup {
   month: string;
+  key: string;
   weeks: { index: number; days: ContributionDay[] }[];
 }
 
-const getMonthName = (dateStr: string): string => {
-  return new Date(dateStr).toLocaleString('en-US', { month: 'short' });
+const getMonthNameAndKey = (dateStr: string): { name: string; key: string } => {
+  const date = new Date(dateStr);
+  return {
+    name: date.toLocaleString('en-US', { month: 'short' }),
+    key: date.toISOString().slice(0, 7),
+  };
 };
 
 const groupWeeksByMonth = (weeks: ContributionWeek[]): MonthGroup[] => {
   const monthGroups: MonthGroup[] = [];
-  let currentMonth: string | null = null;
-  let currentGroup: MonthGroup = { month: '', weeks: [] };
+  let currentMonthKey: string | null = null;
+  let currentGroup: MonthGroup = { month: '', key: '', weeks: [] };
 
   weeks.forEach((week, index) => {
     const firstDay = week.contributionDays[0].date;
-    const month = getMonthName(firstDay);
+    const { name: month, key } = getMonthNameAndKey(firstDay);
 
-    if (month !== currentMonth) {
-      if (currentMonth) {
+    if (key !== currentMonthKey) {
+      if (currentMonthKey) {
         monthGroups.push(currentGroup);
       }
-      currentMonth = month;
-      currentGroup = { month, weeks: [] };
+      currentMonthKey = key;
+      currentGroup = { month, key, weeks: [] };
     }
     currentGroup.weeks.push({ index, days: week.contributionDays });
   });
@@ -114,21 +121,23 @@ const ContributionCell: React.FC<ContributionCellProps> = ({
       role="gridcell"
       data-date={day.date}
       data-level={day.contributionCount}
-      aria-describedby={`contribution-graph-legend-level-${Math.min(day.contributionCount, 4)}`}
       className={`h-[10px] w-[10px] rounded-[2px] border ${getColorForContribution(
         day.contributionCount,
         maxCount,
       )} transition-transform duration-150 hover:scale-110`}
-      title={`${day.date}: ${day.contributionCount} contributions`}
+      title={`${formatDate(day.date, 'pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })}: ${day.contributionCount} contributions`}
     />
   );
 };
 
 const ContributionsTable: React.FC<ContributionProps> = ({ contributions }) => {
   const data: ContributionData = contributions.user.contributionsCollection;
-
   const monthGroups = groupWeeksByMonth(data.contributionCalendar.weeks);
-
+  const monthTotals = contributions.contributionStats.monthlyContributions;
   const maxCount = Math.max(
     ...data.contributionCalendar.weeks.flatMap((week) =>
       week.contributionDays.map((day) => day.contributionCount),
@@ -157,18 +166,14 @@ const ContributionsTable: React.FC<ContributionProps> = ({ contributions }) => {
                   {monthGroups.map((group, index) => (
                     <td
                       key={index}
-                      className="ContributionCalendar-label border-x border-primary text-xs"
+                      className="ContributionCalendar-label"
                       colSpan={group.weeks.length}
                       style={{ position: 'relative' }}
-                    >
-                      <span className="sr-only">{group.month}</span>
-                      <span aria-hidden="true" style={{ position: 'absolute', top: 0 }}>
-                        {group.month}
-                      </span>
-                    </td>
+                    ></td>
                   ))}
                 </tr>
               </thead>
+
               <tbody>
                 {daysOfWeek.map((day, rowIndex) => (
                   <tr key={rowIndex} className="h-[10px]">

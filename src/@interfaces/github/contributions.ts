@@ -2,7 +2,10 @@ export interface GitContributions {
   user: User;
   contributionStats: ContributionsStats;
 }
-
+export interface MonthlyContributions {
+  month: string;
+  count: number;
+}
 export interface User {
   createdAt: string;
   contributionsCollection: ContributionsCollection;
@@ -29,6 +32,7 @@ export interface ContributionDay {
 export interface ContributionsStats {
   totalContributions: number;
   firstContribution: string;
+  monthlyContributions: MonthlyContributions[];
   currentStreak: CurrentStreak;
   longestStreak: LongestStreak;
 }

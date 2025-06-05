@@ -1,5 +1,4 @@
-// src/utils/cacheUtils.ts
-export const CACHE_DURATION = 15 * 60 * 1000; // 15 minutos
+export const CACHE_DURATION = 15 * 60 * 1000;
 
 export const LAST_FETCH_KEY = (key: string) => `github_${key}_last_fetch`;
 export const CACHED_DATA_KEY = (key: string) => `github_${key}_data`;

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import axios from 'axios';
+
 import { handleApiError } from '@/utils/handleApiError';
 
 const headers = {
@@ -12,9 +14,12 @@ export async function GET(request: NextRequest, { params }: { params: { username
   const { username } = params;
 
   try {
-    const response = await axios.get(`https://api.github.com/users/${username}/followers?per_page=5`, {
-      headers,
-    });
+    const response = await axios.get(
+      `https://api.github.com/users/${username}/followers?per_page=5`,
+      {
+        headers,
+      },
+    );
 
     return NextResponse.json(response.data, { status: 200 });
   } catch (error) {

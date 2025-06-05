@@ -1,7 +1,8 @@
 'use client';
 import { getGithubStats } from '@/app/api/services/get-github-stats';
-import { FIFTEEN_MINUTES } from '@/constants';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
+import { FIFTEEN_MINUTES } from '@/constants';
 
 export interface Stats {
   rank: Rank;

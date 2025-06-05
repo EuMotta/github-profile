@@ -12,17 +12,10 @@ const queryClient = new QueryClient();
 
 const Providers = ({ children }: ChildrenProps) => {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <TooltipProvider>
         <JotaiProvider>
-          <QueryClientProvider client={queryClient}>
-            {children}
-          </QueryClientProvider>
+          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
         </JotaiProvider>
       </TooltipProvider>
     </ThemeProvider>

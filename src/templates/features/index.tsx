@@ -1,5 +1,6 @@
-import { Paintbrush, Code, PlusCircle } from 'lucide-react';
 import React from 'react';
+
+import { Paintbrush, Code, PlusCircle } from 'lucide-react';
 
 interface FeatureItem {
   icon: React.ReactNode;
@@ -40,6 +41,8 @@ const FeatureCard: React.FC<FeatureCardProps> = React.memo(({ feature }) => (
     <p className="text-muted-foreground">{feature.description}</p>
   </li>
 ));
+
+FeatureCard.displayName = 'FeatureCard';
 
 const Feature: React.FC = () => (
   <section className="relative flex h-screen items-center py-14">

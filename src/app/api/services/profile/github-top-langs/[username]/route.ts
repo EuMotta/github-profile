@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios, { AxiosError } from 'axios';
-import { errorList } from '@/constants';
-import { handleApiError } from '@/utils/handleApiError';
-import { calculateLanguagePercentages } from '@/utils/calculate-language-percentage';
 
-// Define the TopLangData interface (intermediate data)
+import axios, { AxiosError } from 'axios';
+
+import { calculateLanguagePercentages } from '@/utils/calculate-language-percentage';
+import { handleApiError } from '@/utils/handleApiError';
+
+import { errorList } from '@/constants';
+
 interface TopLangData {
   [language: string]: {
     name: string;
@@ -14,17 +16,15 @@ interface TopLangData {
   };
 }
 
-// Define the LanguagePercentage interface (output)
 interface LanguagePercentage {
   name: string;
   percentage: string;
 }
 
-// Server-safe cache
 const cache = new Map<string, { data: LanguagePercentage[]; timestamp: number }>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 5 * 60 * 1000;
 
-export const dynamic = 'force-dynamic'; // Prevent prerendering
+export const dynamic = 'force-dynamic';
 
 const headers = {
   Accept: 'application/vnd.github.v3+json',
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
     }
 
     let repoNodes = response.data.data.user.repositories.nodes;
-    let repoToHide: { [key: string]: boolean } = {};
+    const repoToHide: { [key: string]: boolean } = {};
 
     exclude_repo.forEach((repoName) => {
       repoToHide[repoName] = true;
@@ -133,7 +133,6 @@ export async function GET(request: NextRequest, { params }: { params: { username
         return result;
       }, {});
 
-    // Convert topLangs to LanguageUsage for calculateLanguagePercentages
     const languageUsage: Record<string, number> = Object.keys(topLangs).reduce(
       (acc, key) => {
         acc[key] = topLangs[key].size;
@@ -142,10 +141,8 @@ export async function GET(request: NextRequest, { params }: { params: { username
       {} as Record<string, number>,
     );
 
-    // Calculate percentages
     const languagePercentages = calculateLanguagePercentages(languageUsage);
 
-    // Cache the result
     cache.set(cacheKey, { data: languagePercentages, timestamp: Date.now() });
 
     return NextResponse.json(languagePercentages, { status: 200 });

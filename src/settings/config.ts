@@ -16,8 +16,7 @@ export const siteConfig = {
     description: '',
     links: {
       instagram: 'https://www.instagram.com/joseantonio.motta/',
-      linkedin:
-        'https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/',
+      linkedin: 'https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/',
       github: 'https://github.com/EuMotta',
     },
   },
@@ -34,8 +33,7 @@ export const siteConfig = {
     phone: '+55 12 98765-4321',
     socialMedia: {
       instagram: 'https://www.instagram.com/joseantonio.motta/',
-      linkedin:
-        'https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/',
+      linkedin: 'https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/',
       github: 'https://github.com/EuMotta',
     },
   },

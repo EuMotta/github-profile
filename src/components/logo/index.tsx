@@ -1,6 +1,7 @@
-import { appInformations } from '@/settings/config';
 import Image from 'next/image';
 import React from 'react';
+
+import { appInformations } from '@/settings/config';
 
 const Logo = () => {
   return (
