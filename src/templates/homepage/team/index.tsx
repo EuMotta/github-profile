@@ -1,10 +1,12 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { siteConfig } from '@/settings/config';
-import { GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { siteConfig } from '@/settings/config';
+import { GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 
 interface TeamMember {
   name: string;
@@ -51,9 +53,7 @@ export default function Team({
           <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             {title}
           </h2>
-          <p className="mx-auto max-w-2xl text-muted-foreground md:text-lg">
-            {subtitle}
-          </p>
+          <p className="mx-auto max-w-2xl text-muted-foreground md:text-lg">{subtitle}</p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-8">
@@ -103,15 +103,9 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
                   rel="noopener noreferrer"
                   className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all hover:bg-primary hover:text-primary-foreground"
                 >
-                  {link.platform === 'github' && (
-                    <GithubIcon className="h-4 w-4" />
-                  )}
-                  {link.platform === 'twitter' && (
-                    <TwitterIcon className="h-4 w-4" />
-                  )}
-                  {link.platform === 'linkedin' && (
-                    <LinkedinIcon className="h-4 w-4" />
-                  )}
+                  {link.platform === 'github' && <GithubIcon className="h-4 w-4" />}
+                  {link.platform === 'twitter' && <TwitterIcon className="h-4 w-4" />}
+                  {link.platform === 'linkedin' && <LinkedinIcon className="h-4 w-4" />}
                 </Link>
               ))}
             </div>

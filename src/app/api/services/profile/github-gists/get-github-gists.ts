@@ -1,12 +1,9 @@
+import { GitGists } from '@/@interfaces/github/gists';
 import axios, { AxiosError } from 'axios';
 
+import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
 import { handleApiError } from '@/utils/handleApiError';
-import {
-  CACHED_DATA_KEY,
-  getCachedData,
-  LAST_FETCH_KEY,
-} from '@/utils/cache-utils';
-import { GitGists } from '@/@interfaces/github/gists';
+
 import { headersGit as headers } from '../../api';
 
 export async function getGithubGists(username: string) {

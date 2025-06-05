@@ -1,7 +1,9 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
+import * as React from 'react';
+
 import { cva, type VariantProps } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
 
 const cardVariants = cva('', {
   variants: {
@@ -22,7 +24,6 @@ type CardProps = React.HTMLAttributes<HTMLDivElement> & {
 const GitCard = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant, ...props }, ref) => {
     const effectiveVariant = variant || 'default';
-    console.log(effectiveVariant);
     const classes = cn(cardVariants({ variant: effectiveVariant, className }));
 
     return <div ref={ref} className={classes} {...props} />;
@@ -30,16 +31,11 @@ const GitCard = React.forwardRef<HTMLDivElement, CardProps>(
 );
 GitCard.displayName = 'Card';
 
-const GitCardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('flex flex-col space-y-1.5 p-6', className)}
-    {...props}
-  />
-));
+const GitCardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />
+  ),
+);
 GitCardHeader.displayName = 'CardHeader';
 
 const GitCardTitle = React.forwardRef<
@@ -48,10 +44,7 @@ const GitCardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn(
-      'text-2xl font-semibold leading-none tracking-tight',
-      className,
-    )}
+    className={cn('text-2xl font-semibold leading-none tracking-tight', className)}
     {...props}
   />
 ));
@@ -61,39 +54,22 @@ const GitCardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 ));
 GitCardDescription.displayName = 'CardDescription';
 
-const GitCardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
-));
+const GitCardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+  ),
+);
 GitCardContent.displayName = 'CardContent';
 
-const GitCardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('flex items-center p-6 pt-0', className)}
-    {...props}
-  />
-));
+const GitCardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex items-center p-6 pt-0', className)} {...props} />
+  ),
+);
 GitCardFooter.displayName = 'CardFooter';
 
-export {
-  GitCard,
-  GitCardHeader,
-  GitCardFooter,
-  GitCardTitle,
-  GitCardDescription,
-  GitCardContent,
-};
+export { GitCard, GitCardHeader, GitCardFooter, GitCardTitle, GitCardDescription, GitCardContent };

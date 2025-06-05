@@ -1,7 +1,6 @@
 import serverClientFactory from '../../server';
 import { FindProfileByName, GitProfile } from '../interfaces/profile';
 
-
 const headers = {
   Accept: 'application/vnd.github.cloak-preview+json',
   Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,

@@ -1,9 +1,11 @@
+import { GitProfile } from '@/@interfaces/github/profile';
 import axios, { AxiosError } from 'axios';
 
-import { errorList, FIFTEEN_MINUTES } from '@/constants';
-import { handleApiError } from '@/utils/handleApiError';
 import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
-import { GitProfile } from '@/@interfaces/github/profile';
+import { handleApiError } from '@/utils/handleApiError';
+
+import { errorList, FIFTEEN_MINUTES } from '@/constants';
+
 import api, { headersGit as headers } from '../../api';
 
 export async function getGithubProfile(username: string) {

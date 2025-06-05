@@ -1,11 +1,12 @@
 'use client';
-import { MdFavorite } from 'react-icons/md';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGetGithubOrgs } from '@/hooks/github-orgs';
-import { Response } from '@/components/common/response';
-import { Organization } from '@/@interfaces/github/organization';
 import React from 'react';
+import { MdFavorite } from 'react-icons/md';
+
+import { Organization } from '@/@interfaces/github/organization';
+import { Response } from '@/components/common/response';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useGetGithubOrgs } from '@/hooks/github-orgs';
 
 interface OrganizationCardProps {
   org: Organization;
@@ -44,6 +45,8 @@ const OrganizationCard: React.FC<OrganizationCardProps> = React.memo(({ org }) =
     </CardContent>
   </Card>
 ));
+
+OrganizationCard.displayName = 'OrganizationCard';
 
 interface OrganizationsProps {
   username: string;

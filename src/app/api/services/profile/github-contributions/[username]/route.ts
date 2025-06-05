@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import { handleApiError } from '@/utils/handleApiError';
 
 interface ContributionDay {

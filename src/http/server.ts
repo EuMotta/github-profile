@@ -35,8 +35,6 @@ export default async function serverClientFactory<T>({
   params,
   headers,
 }: MutatorConfig): Promise<T> {
-  const tag = url.split('/')[1] || 'default';
-
   const commonHeaders = {
     'Content-Type': 'application/json',
 
@@ -45,13 +43,13 @@ export default async function serverClientFactory<T>({
 
   if (method === 'get') {
     const fetchOnce = async () => {
-      console.log(`[FETCH] Realizando fetch para ${url} com tag "${tag}"`);
+      console.log(`[FETCH] Realizando fetch para ${url} com tag "${url}"`);
       const query = params ? `?${new URLSearchParams(params).toString()}` : '';
       const res = await fetch(`${API_URL}${url}${query}`, {
         method: 'GET',
         headers: commonHeaders,
         next: {
-          tags: [tag],
+          tags: [url],
           revalidate: 900,
         },
       });
@@ -94,8 +92,8 @@ export default async function serverClientFactory<T>({
   const result = await withRetry(axiosOnce, 4, 400);
 
   if (['post', 'put', 'patch', 'delete'].includes(method)) {
-    console.log(`Revalidating tag: ${tag}`);
-    revalidateTag(tag);
+    console.log(`Revalidating tag: ${url}`);
+    revalidateTag(url);
   }
 
   return result;

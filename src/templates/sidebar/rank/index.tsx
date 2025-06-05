@@ -1,8 +1,9 @@
 import React from 'react';
 import { FaCode, FaExclamationCircle } from 'react-icons/fa';
 import { FaCodeBranch, FaStar, FaCodePullRequest } from 'react-icons/fa6';
-import { useGetGithubStats } from '@/hooks/github-stats';
+
 import ProgressCounter from '@/components/counter';
+import { useGetGithubStats } from '@/hooks/github-stats';
 
 interface StatItemProps {
   icon: React.ElementType;
@@ -16,7 +17,7 @@ const StatItem: React.FC<StatItemProps> = ({ icon: Icon, label, value }) => (
       <Icon className="text-base" />
       {label}
     </dt>
-    <dd className="font-medium text-secondary">
+    <dd className="font-medium">
       <ProgressCounter duration={2500} targetValue={value} />
     </dd>
   </div>

@@ -1,10 +1,11 @@
+import Link from 'next/link';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/settings/config';
 import { Dribbble, Facebook, Github, Instagram, Mail, MapPin, Phone, Twitter } from 'lucide-react';
-import Link from 'next/link';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const socialLinks = [
   { icon: FaLinkedin, label: 'Linkedin', href: siteConfig.personalInfo.socialMedia.linkedin },

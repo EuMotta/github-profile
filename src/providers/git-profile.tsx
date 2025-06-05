@@ -1,7 +1,8 @@
 'use client';
 
-import { GitProfile } from '@/http/github/interfaces/profile';
 import React, { createContext, useContext, ReactNode } from 'react';
+
+import { GitProfile } from '@/http/github/interfaces/profile';
 
 type ProfileGitContextType = {
   data: GitProfile | undefined;
@@ -12,9 +13,7 @@ type ProfileGitContextType = {
   refetch?: () => void;
 };
 
-const ProfileGitContext = createContext<ProfileGitContextType | undefined>(
-  undefined,
-);
+const ProfileGitContext = createContext<ProfileGitContextType | undefined>(undefined);
 
 export function useGitProfile(): ProfileGitContextType {
   const context = useContext(ProfileGitContext);
@@ -38,9 +37,7 @@ export function ProfileGitProvider({
   refetch,
 }: ProfileGitProviderProps) {
   return (
-    <ProfileGitContext.Provider
-      value={{ data, isLoading, isError, error, isSuccess, refetch }}
-    >
+    <ProfileGitContext.Provider value={{ data, isLoading, isError, error, isSuccess, refetch }}>
       {children}
     </ProfileGitContext.Provider>
   );

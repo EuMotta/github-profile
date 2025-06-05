@@ -1,16 +1,16 @@
-// app/[username]/page.tsx
 import { Suspense } from 'react';
-import { ThemeApplier } from '@/components/theme';
+
+import Loading from '@/app/loading';
 import { Response } from '@/components/common/response';
+import { ThemeApplier } from '@/components/theme';
+import { getGithubData } from '@/http/github/server/api';
 import { ProfileGitProvider } from '@/providers/git-profile';
-import Sidebar from '@/templates/sidebar';
-import Repositories from '@/templates/home/repositories';
+import RecentActivity from '@/templates/home/activity';
+import Contributions from '@/templates/home/contributions';
 import Followers from '@/templates/home/followers';
 import Organizations from '@/templates/home/organizations';
-import RecentActivity from '@/templates/home/activity';
-import Loading from '@/app/loading';
-import Contributions from '@/templates/home/contributions';
-import { getGithubData } from '@/http/github/server/api';
+import Repositories from '@/templates/home/repositories';
+import Sidebar from '@/templates/sidebar';
 
 const UserNotFound: React.FC = () => (
   <div className="flex h-[60vh] items-center justify-center">

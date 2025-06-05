@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import axios from 'axios';
+
 import { handleApiError } from '@/utils/handleApiError';
 
 const headers = {

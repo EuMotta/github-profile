@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from 'axios';
 
-import { decodeBase64Content } from '@/utils/decode';
 import { calculateLanguagePercentages } from '@/utils/calculate-language-percentage';
-
-import { errorList, FIFTEEN_MINUTES } from '@/constants';
+import { decodeBase64Content } from '@/utils/decode';
 import { handleApiError } from '@/utils/handleApiError';
 
-const LAST_FETCH_KEY = (repository: string) =>
-  `github_project_${repository}_last_fetch`;
-const CACHED_DATA_KEY = (repository: string) =>
-  `github_project_${repository}_data`;
+import { errorList, FIFTEEN_MINUTES } from '@/constants';
+
+const LAST_FETCH_KEY = (repository: string) => `github_project_${repository}_last_fetch`;
+const CACHED_DATA_KEY = (repository: string) => `github_project_${repository}_data`;
 
 export async function getGithubProject(repository: string) {
   const lastFetch = localStorage.getItem(LAST_FETCH_KEY(repository));
@@ -27,16 +25,11 @@ export async function getGithubProject(repository: string) {
     const username = 'EuMotta';
     console.log('fetching project data for', `${username}/${repository}`);
 
-    const [projectResponse, languagesResponse, contributorsResponse] =
-      await Promise.all([
-        axios.get(`https://api.github.com/repos/${username}/${repository}`),
-        axios.get(
-          `https://api.github.com/repos/${username}/${repository}/languages`,
-        ),
-        axios.get(
-          `https://api.github.com/repos/${username}/${repository}/contributors`,
-        ),
-      ]);
+    const [projectResponse, languagesResponse, contributorsResponse] = await Promise.all([
+      axios.get(`https://api.github.com/repos/${username}/${repository}`),
+      axios.get(`https://api.github.com/repos/${username}/${repository}/languages`),
+      axios.get(`https://api.github.com/repos/${username}/${repository}/contributors`),
+    ]);
 
     const result = {
       project: {

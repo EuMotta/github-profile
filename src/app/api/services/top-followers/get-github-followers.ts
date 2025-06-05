@@ -1,7 +1,8 @@
-// src/lib/github-api.ts
 import { GitEvents } from '@/@interfaces/github/events';
-import { handleApiError } from '@/utils/handleApiError';
+
 import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
+import { handleApiError } from '@/utils/handleApiError';
+
 import api from '../api';
 
 export async function getGithubFollowers(username: string): Promise<GitEvents[]> {

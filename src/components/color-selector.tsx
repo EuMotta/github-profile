@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import { FaSliders } from 'react-icons/fa6';
 
 import {
   Card,
@@ -23,7 +24,6 @@ import { themes } from '@/constants/themes';
 
 import { Button } from './ui/button';
 import { Slider } from './ui/slider';
-import { FaSliders } from 'react-icons/fa6';
 
 const ColorSelector: React.FC = () => {
   const [config, setConfig] = useConfig();

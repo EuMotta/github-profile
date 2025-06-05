@@ -8,11 +8,7 @@ interface ProgressCounterProps extends React.HTMLAttributes<HTMLSpanElement> {
   duration?: number;
 }
 
-const ProgressCounter = ({
-  targetValue = 0,
-  duration = 2000,
-  ...props
-}: ProgressCounterProps) => {
+const ProgressCounter = ({ targetValue = 0, duration = 2000, ...props }: ProgressCounterProps) => {
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {

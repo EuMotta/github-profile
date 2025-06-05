@@ -32,11 +32,7 @@ export const Response: React.FC<ResponseProps> = ({
     <div className="flex items-center justify-center p-4">
       <div className="w-full max-w-md !border-none !shadow-none">
         <CardHeader className="space-y-3 p-6 text-center">
-          <img
-            src={image}
-            alt={title}
-            className="mx-auto h-32 w-32 object-contain"
-          />
+          <img src={image} alt={title} className="mx-auto h-32 w-32 object-contain" />
           <h1 className="text-3xl font-bold">{title}</h1>
           <p className="text-muted-foreground">{description}</p>
         </CardHeader>

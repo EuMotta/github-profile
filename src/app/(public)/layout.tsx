@@ -1,6 +1,7 @@
+import type { Metadata } from 'next';
+
 import Footer from '@/templates/footer';
 import { Navbar1 } from '@/templates/navbar1';
-import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Home',

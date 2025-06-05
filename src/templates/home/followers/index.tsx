@@ -1,13 +1,15 @@
 'use client';
+import Link from 'next/link';
 import React from 'react';
 import { MdGroup, MdFavorite, MdPersonAdd } from 'react-icons/md';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useGetGithubFollowers } from '@/hooks/github-followers';
+
 import { GitFollowers } from '@/@interfaces/github/followers';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Response } from '@/components/common/response';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useGetGithubFollowers } from '@/hooks/github-followers';
 
 const FollowersCard = React.memo(({ follower }: { follower: GitFollowers }) => {
   return (
@@ -18,7 +20,9 @@ const FollowersCard = React.memo(({ follower }: { follower: GitFollowers }) => {
       </Avatar>
 
       <div>
-        <div className="font-medium">@{follower.login}</div>
+        <Link href={`/profile/${follower.login}`} className="font-medium">
+          @{follower.login}
+        </Link>
       </div>
 
       <Button
@@ -32,8 +36,10 @@ const FollowersCard = React.memo(({ follower }: { follower: GitFollowers }) => {
   );
 });
 
+FollowersCard.displayName = 'FollowersCard';
+
 const Followers = ({ username }: { username: string }) => {
-  const { data, isError, error, isLoading } = useGetGithubFollowers(username);
+  const { data, isError, error, isLoading, refetch } = useGetGithubFollowers(username);
 
   return (
     <Card>
@@ -49,14 +55,22 @@ const Followers = ({ username }: { username: string }) => {
       <CardContent className="p-6">
         <div className="space-y-4">
           {isError && (
-            <Response image="/stickers/sad.png" title="Oops!" description={error.message} />
+            <>
+              <Response
+                image="/stickers/sad.png"
+                title="Oops!"
+                description="Failed to load followers."
+                buttonText="retry"
+                onButtonClick={() => refetch()}
+              />
+            </>
           )}
 
           {data?.length === 0 && (
             <Response
               image="/stickers/sad.png"
-              title="Oops!"
-              description="No public repositories found"
+              title="No Followers"
+              description="This user has no followers yet."
             />
           )}
 
@@ -64,7 +78,7 @@ const Followers = ({ username }: { username: string }) => {
 
           {data?.map((follower, index) => <FollowersCard follower={follower} key={index} />)}
 
-          <Button variant="link" className="mt-2 text-primary">
+          <Button variant="link" href={'/'} className="mt-2 text-primary">
             View All Followers
           </Button>
         </div>

@@ -1,8 +1,9 @@
+import { GitFollowers } from '@/@interfaces/github/followers';
 import axios, { AxiosError } from 'axios';
 
-import { GitFollowers } from '@/@interfaces/github/followers';
-import { handleApiError } from '@/utils/handleApiError';
 import { CACHED_DATA_KEY, getCachedData, LAST_FETCH_KEY } from '@/utils/cache-utils';
+import { handleApiError } from '@/utils/handleApiError';
+
 import api from '../../api';
 
 export async function getGithubFollowers(username: string) {

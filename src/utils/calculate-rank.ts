@@ -10,15 +10,7 @@ function log_normal_cdf(x) {
   return x / (1 + x);
 }
 
-function calculateRank({
-  all_commits,
-  commits,
-  prs,
-  issues,
-  repos,
-  stars,
-  followers,
-}) {
+function calculateRank({ all_commits, commits, prs, issues, repos, stars, followers }) {
   const COMMITS_MEDIAN = all_commits ? 1000 : 250,
     COMMITS_WEIGHT = 2;
   const PRS_MEDIAN = 50,
@@ -33,12 +25,7 @@ function calculateRank({
     FOLLOWERS_WEIGHT = 1;
 
   const TOTAL_WEIGHT =
-    COMMITS_WEIGHT +
-    PRS_WEIGHT +
-    ISSUES_WEIGHT +
-    REVIEWS_WEIGHT +
-    STARS_WEIGHT +
-    FOLLOWERS_WEIGHT;
+    COMMITS_WEIGHT + PRS_WEIGHT + ISSUES_WEIGHT + REVIEWS_WEIGHT + STARS_WEIGHT + FOLLOWERS_WEIGHT;
 
   const THRESHOLDS = [1, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100];
   const LEVELS = ['S', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C'];

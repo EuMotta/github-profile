@@ -4,11 +4,7 @@ import { ChildrenProps, ClassNames } from '@/../@Types/global';
 
 import styles from './Container.module.css';
 
-const Container: React.FC<ChildrenProps & ClassNames> = ({
-  children,
-  className,
-  ...rest
-}) => {
+const Container: React.FC<ChildrenProps & ClassNames> = ({ children, className, ...rest }) => {
   let containerClassName = styles.space;
 
   if (className) {

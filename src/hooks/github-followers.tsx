@@ -1,6 +1,7 @@
 import { getGithubFollowers } from '@/app/api/services/profile/github-followers/get-github-followers';
-import { FIFTEEN_MINUTES } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
+
+import { FIFTEEN_MINUTES } from '@/constants';
 
 export function useGetGithubFollowers(username: string) {
   return useQuery({

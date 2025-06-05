@@ -28,6 +28,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+/src/app/api/test
+/src/app/test
+/src/components/test
 # vercel
 .vercel
 

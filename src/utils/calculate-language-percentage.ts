@@ -5,9 +5,7 @@ type LanguagePercentage = {
   percentage: string;
 };
 
-export function calculateLanguagePercentages(
-  languages: LanguageUsage,
-): LanguagePercentage[] {
+export function calculateLanguagePercentages(languages: LanguageUsage): LanguagePercentage[] {
   const total = Object.values(languages).reduce((acc, bytes) => acc + bytes, 0);
 
   return Object.entries(languages).map(([name, bytes]) => {

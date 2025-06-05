@@ -1,6 +1,7 @@
 'use client';
 import { useTheme } from 'next-themes';
 import React from 'react';
+import { MdColorLens } from 'react-icons/md';
 
 import {
   Card,
@@ -12,14 +13,6 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useConfig } from '@/hooks/config';
-
-import { cn } from '@/lib/utils';
-
-import { themes } from '@/constants/themes';
-
-import { Button } from './ui/button';
 import {
   Sheet,
   SheetContent,
@@ -28,8 +21,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { MdColorLens } from 'react-icons/md';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useConfig } from '@/hooks/config';
+
+import { cn } from '@/lib/utils';
+
+import { themes } from '@/constants/themes';
+
 import ColorSelector from './color-selector';
+import { Button } from './ui/button';
 
 const ColorSection: React.FC = () => {
   return (

@@ -1,16 +1,18 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { FaMapMarkerAlt, FaLink, FaEye, FaPlus, FaChartBar, FaCalendarAlt } from 'react-icons/fa';
+import { MdSecurity } from 'react-icons/md';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useGitProfile } from '@/providers/git-profile';
-import { MdSecurity } from 'react-icons/md';
-import { formatDateToPtBR } from '@/utils/datetime';
 import { GitCard, GitCardContent } from '@/components/ui/git-card';
-import { useSearchParams } from 'next/navigation';
-import TopLangs from './top-langs';
+import { useGitProfile } from '@/providers/git-profile';
+
+import { formatDateToPtBR } from '@/utils/datetime';
+
 import Rank from './rank';
+import TopLangs from './top-langs';
 
 const Sidebar = ({ username }: { username: string }) => {
   const { data: user, isLoading } = useGitProfile();
@@ -35,7 +37,7 @@ const Sidebar = ({ username }: { username: string }) => {
             )}
           </div>
 
-          <h1 className="mt-4 text-primary  text-2xl font-bold tracking-tight">
+          <h1 className="mt-4 text-2xl font-bold tracking-tight text-primary">
             @{user?.login || 'indefinido'}
           </h1>
           <h2 className="mt-1 text-xl font-medium">{user?.name}</h2>

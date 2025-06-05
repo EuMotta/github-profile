@@ -17,10 +17,10 @@ type Config = {
 const configAtom = atomWithStorage<Config>('config', {
   theme: 'zinc',
   cssVars: {
-    light: themes.find((theme) => theme.name === 'zinc')?.cssVars
-      .light as unknown as Partial<CssVars['light']>,
-    dark: themes.find((theme) => theme.name === 'zinc')?.cssVars
-      .dark as Partial<CssVars['dark']>,
+    light: themes.find((theme) => theme.name === 'zinc')?.cssVars.light as unknown as Partial<
+      CssVars['light']
+    >,
+    dark: themes.find((theme) => theme.name === 'zinc')?.cssVars.dark as Partial<CssVars['dark']>,
   },
 });
 

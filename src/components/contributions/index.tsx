@@ -1,7 +1,9 @@
 'use client';
-import { GitContributions } from '@/@interfaces/github/contributions';
-import formatDate from '@/utils/datetime';
 import React from 'react';
+
+import { GitContributions } from '@/@interfaces/github/contributions';
+
+import formatDate from '@/utils/datetime';
 
 interface ContributionProps {
   contributions: GitContributions;
@@ -136,7 +138,6 @@ const ContributionsTable: React.FC<ContributionProps> = ({ contributions }) => {
   const data: ContributionData = contributions.user.contributionsCollection;
   const monthGroups = groupWeeksByMonth(data.contributionCalendar.weeks);
   const monthTotals = contributions.contributionStats.monthlyContributions;
-  console.log(contributions);
   const maxCount = Math.max(
     ...data.contributionCalendar.weeks.flatMap((week) =>
       week.contributionDays.map((day) => day.contributionCount),
@@ -165,14 +166,10 @@ const ContributionsTable: React.FC<ContributionProps> = ({ contributions }) => {
                   {monthGroups.map((group, index) => (
                     <td
                       key={index}
-                      className="ContributionCalendar-label border-x border-primary text-xs"
+                      className="ContributionCalendar-label"
                       colSpan={group.weeks.length}
                       style={{ position: 'relative' }}
-                    >
-                      <span aria-hidden="true" style={{ position: 'absolute', top: 0 }}>
-                        {group.month} ({monthTotals.find((m) => m.month === group.key)?.count || 0})
-                      </span>
-                    </td>
+                    ></td>
                   ))}
                 </tr>
               </thead>

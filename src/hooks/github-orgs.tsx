@@ -1,6 +1,7 @@
 import { getGithubOrgs } from '@/app/api/services/profile/github-orgs/get-github-orgs';
-import { FIFTEEN_MINUTES } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
+
+import { FIFTEEN_MINUTES } from '@/constants';
 
 export function useGetGithubOrgs(username: string) {
   return useQuery({

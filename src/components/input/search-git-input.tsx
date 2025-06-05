@@ -1,14 +1,15 @@
 'use client';
 
-import React from 'react';
 import { useRouter } from 'next/navigation';
-import { z } from 'zod';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/components/ui/input';
+import { FaArrowRight, FaSearch } from 'react-icons/fa';
+
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { FaArrowRight, FaSearch } from 'react-icons/fa';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const formSchema = z.object({
   username: z.string().min(1, 'Username é obrigatório'),
@@ -32,10 +33,7 @@ const SearchGitInput = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="relative z-50 w-full max-w-md"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="relative z-50 w-full max-w-md">
         <FormField
           control={form.control}
           name="username"
@@ -63,5 +61,3 @@ const SearchGitInput = () => {
 };
 
 export default SearchGitInput;
-
-

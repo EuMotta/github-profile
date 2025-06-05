@@ -1,9 +1,10 @@
 'use client';
-import { MdHistory } from 'react-icons/md';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import React from 'react';
+import { MdHistory } from 'react-icons/md';
+
 import ContributionsTable from '@/components/contributions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useGetGithubContributions } from '@/hooks/github-contributions';
 
 interface RecentActivityProps {
@@ -18,6 +19,7 @@ const Contributions: React.FC<RecentActivityProps> = ({ username }) => {
     isLoading: isLoadingContributions,
   } = useGetGithubContributions(username);
   console.log(contributions);
+
   return (
     <Card>
       <CardHeader>

@@ -1,12 +1,13 @@
 'use client';
+import React from 'react';
 import { FaCode, FaCodeBranch, FaEye, FaFilter, FaSearch, FaStar } from 'react-icons/fa';
+
+import { Item } from '@/@interfaces/github/project';
+import { Response } from '@/components/common/response';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGetGithubRepositories } from '@/hooks/github-repositories';
-import { Item } from '@/@interfaces/github/project';
-import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Response } from '@/components/common/response';
+import { useGetGithubRepositories } from '@/hooks/github-repositories';
 
 const languageStyles: Record<string, string> = {
   TypeScript: 'bg-blue-900 text-blue-300',
@@ -52,6 +53,8 @@ const RepositoryStat: React.FC<RepositoryStatProps> = React.memo(({ icon: Icon, 
   </div>
 ));
 
+RepositoryStat.displayName = 'RepositoryStat';
+
 interface RepositoryCardProps {
   repo: Item;
 }
@@ -89,6 +92,8 @@ const RepositoryCard: React.FC<RepositoryCardProps> = React.memo(({ repo }) => {
     </Card>
   );
 });
+
+RepositoryCard.displayName = 'RepositoryCard';
 
 interface MessageProps {
   message: string;

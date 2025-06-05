@@ -1,6 +1,6 @@
-// app/components/CacheDebug.tsx
-import serverClientFactory from '@/http/server';
 import React from 'react';
+
+import serverClientFactory from '@/http/server';
 
 type ServerData = {
   value: string;
