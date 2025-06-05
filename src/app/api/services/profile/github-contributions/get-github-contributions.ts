@@ -13,7 +13,7 @@ export async function getGithubContributions(username: string): Promise<GitContr
   }
 
   try {
-    console.log(`Fetching contributions for ${username}`);
+    // console.log(`Fetching contributions for ${username}`);
     const response = await api.get<GitContributions>(
       `/api/services/profile/github-contributions/${username}`,
     );

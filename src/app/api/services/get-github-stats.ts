@@ -22,7 +22,7 @@ export async function getGithubStats(username: string) {
   }
 
   try {
-    console.log('fetching stats for', username);
+    // console.log('fetching stats for', username);
     const headers = {
       Accept: 'application/vnd.github.cloak-preview+json',
     };

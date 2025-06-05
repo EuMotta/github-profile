@@ -36,13 +36,11 @@ const StatusMessage: React.FC<StatusMessageProps> = ({ message, textColor }) => 
 
 const Rank: React.FC<RankProps> = ({ username }) => {
   const { data: stats, isLoading, isError } = useGetGithubStats(username);
-
-  if (isError || !stats) {
-    return <StatusMessage message="Error loading GitHub stats" textColor="text-red-500" />;
-  }
-
   if (isLoading) {
     return <StatusMessage message="Loading stats..." textColor="text-cyan-400" />;
+  }
+  if (isError || !stats) {
+    return <StatusMessage message="Error loading GitHub stats" textColor="text-red-500" />;
   }
 
   const statItems: StatItemProps[] = [

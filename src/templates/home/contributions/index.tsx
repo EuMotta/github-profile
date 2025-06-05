@@ -18,7 +18,6 @@ const Contributions: React.FC<RecentActivityProps> = ({ username }) => {
     isError: isErrorContributions,
     isLoading: isLoadingContributions,
   } = useGetGithubContributions(username);
-  console.log(contributions);
 
   return (
     <Card>

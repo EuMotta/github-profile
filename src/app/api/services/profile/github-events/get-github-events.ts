@@ -13,7 +13,7 @@ export async function getGithubEvents(username: string): Promise<GitEvents[]> {
   }
 
   try {
-    console.log(`Fetching events for ${username}`);
+    // console.log(`Fetching events for ${username}`);
     const response = await api.get<GitEvents[]>(`/api/services/profile/github-events/${username}`);
 
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());

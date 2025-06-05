@@ -14,7 +14,7 @@ export async function getGithubOrgs(username: string) {
   }
 
   try {
-    console.log('fetching organizations for', username);
+    // console.log('fetching organizations for', username);
     const response = await api.get<Organization[]>(`/api/services/profile/github-orgs/${username}`);
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
     localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(response.data));

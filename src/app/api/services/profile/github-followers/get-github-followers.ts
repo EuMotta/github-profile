@@ -14,7 +14,7 @@ export async function getGithubFollowers(username: string) {
   }
 
   try {
-    console.log('fetching followers for', username);
+    // console.log('fetching followers for', username);
     const response = await api.get<GitFollowers[]>(
       `/api/services/profile/github-followers/${username}`,
     );

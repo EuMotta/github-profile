@@ -16,7 +16,7 @@ export async function getGithubProfile(username: string) {
   }
 
   try {
-    console.log('fetchj');
+    // console.log('fetchj');
     const response = await api.get<GitProfile>(`/api/services/profile/github-profile/${username}`);
     localStorage.setItem(LAST_FETCH_KEY(cacheKey), Date.now().toString());
     localStorage.setItem(CACHED_DATA_KEY(cacheKey), JSON.stringify(response.data));

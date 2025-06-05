@@ -35,7 +35,7 @@ export default async function serverGraphQLClient<T>({
   tag = DEFAULT_TAG,
 }: GraphQLClientConfig): Promise<T> {
   const fetchGraphQL = async () => {
-    console.log('fez o fetch no graphql', tag);
+    // console.log('fez o fetch no graphql', tag);
     const res = await fetch(GITHUB_GRAPHQL_URL, {
       method: 'POST',
       headers: {

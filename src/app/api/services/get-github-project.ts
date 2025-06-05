@@ -23,7 +23,7 @@ export async function getGithubProject(repository: string) {
 
   try {
     const username = 'EuMotta';
-    console.log('fetching project data for', `${username}/${repository}`);
+    // ('fetching project data for', `${username}/${repository}`);
 
     const [projectResponse, languagesResponse, contributorsResponse] = await Promise.all([
       axios.get(`https://api.github.com/repos/${username}/${repository}`),

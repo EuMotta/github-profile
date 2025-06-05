@@ -92,7 +92,7 @@ export default async function serverClientFactory<T>({
   const result = await withRetry(axiosOnce, 4, 400);
 
   if (['post', 'put', 'patch', 'delete'].includes(method)) {
-    console.log(`Revalidating tag: ${url}`);
+    // console.log(`Revalidating tag: ${url}`);
     revalidateTag(url);
   }
 
