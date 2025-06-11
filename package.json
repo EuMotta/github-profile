@@ -1,5 +1,5 @@
 {
-  "name": "jose-antonio-motta-template",
+  "name": "jose-antonio-motta-styled-hub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,8 @@
     "plop": "plop",
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "start:prod": "NODE_ENV=production next start",
-    "test": "jest"
+    "test": "jest",
+    "postbuild": "next-sitemap"
   },
   "husky": {
     "hooks": {
@@ -45,6 +46,7 @@
     "lucide-react": "^0.511.0",
     "motion": "^12.14.0",
     "next": "^14.2.29",
+    "next-sitemap": "^4.2.3",
     "next-themes": "^0.3.0",
     "nuqs": "^2.4.3",
     "react": "^18.3.1",

@@ -9,11 +9,12 @@ export const appInformations = {
 
 export const siteConfig = {
   site: {
-    name: 'Motta',
-    url: '',
-    ogImage: '',
-    finished_projects_qty: 16,
-    description: '',
+    name: 'StyledHub',
+    url: 'https://styledhub.dev',
+    ogImage: '/ogimg.png',
+
+    description:
+      'StyledHub é um projeto open-source para compartilhar componentes estilizados e reutilizáveis. Desenvolvido por José Antonio Motta, explore o código-fonte e contribua no GitHub!',
     links: {
       instagram: 'https://www.instagram.com/joseantonio.motta/',
       linkedin: 'https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/',

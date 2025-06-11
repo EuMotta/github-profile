@@ -25,18 +25,45 @@ const ErrorFallback: React.FC<{ message: string }> = ({ message }) => (
 );
 
 interface PageProps {
-  params: {
-    username: string;
-  };
+  params: { username: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-async function UserProfile({ username }: { username: string }) {
+const componentMap: Record<string, { component: React.FC<{ username: string }>; grid?: string }> = {
+  repositories: { component: Repositories },
+  followers: { component: Followers, grid: 'md:grid-cols-2' },
+  organizations: { component: Organizations, grid: 'md:grid-cols-2' },
+  contributions: { component: Contributions },
+  recentActivity: { component: RecentActivity },
+};
+
+const getVisibleComponents = (componentsParam: string | undefined) => {
+  if (!componentsParam) {
+    return Object.keys(componentMap);
+  }
+  return componentsParam
+    .split(',')
+    .map((comp) => comp.trim())
+    .filter((comp) => comp in componentMap);
+};
+
+async function UserProfile({
+  username,
+  searchParams,
+}: {
+  username: string;
+  searchParams: PageProps['searchParams'];
+}) {
   try {
     const user = await getGithubData().findProfileByName(username);
 
     if (!user) {
       return <UserNotFound />;
     }
+
+    const componentsParam =
+      typeof searchParams.components === 'string' ? searchParams.components : undefined;
+    const visibleComponents = getVisibleComponents(componentsParam);
 
     return (
       <ProfileGitProvider data={user} isLoading={false}>
@@ -47,13 +74,19 @@ async function UserProfile({ username }: { username: string }) {
               <Sidebar username={username} />
             </aside>
             <main className="col-span-1 space-y-5 lg:col-span-2">
-              <Repositories username={username} />
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <Followers username={username} />
-                <Organizations username={username} />
+              <ShowComponent name="repositories" visibleComponents={visibleComponents}>
+                <Repositories username={username} />
+              </ShowComponent>
+              <div className={`grid grid-cols-1 gap-5 ${componentMap.followers.grid || ''}`}>
+                {visibleComponents.includes('followers') && <Followers username={username} />}
+                {visibleComponents.includes('organizations') && (
+                  <Organizations username={username} />
+                )}
               </div>
-              <Contributions username={username} />
-              <RecentActivity username={username} />
+              {visibleComponents.includes('contributions') && <Contributions username={username} />}
+              {visibleComponents.includes('recentActivity') && (
+                <RecentActivity username={username} />
+              )}
             </main>
           </div>
         </div>
@@ -65,14 +98,27 @@ async function UserProfile({ username }: { username: string }) {
   }
 }
 
-const Page: React.FC<PageProps> = async ({ params }) => {
+const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   const { username } = params;
 
   return (
     <Suspense fallback={<Loading />}>
-      <UserProfile username={username} />
+      <UserProfile username={username} searchParams={searchParams} />
     </Suspense>
   );
 };
+
+function ShowComponent({
+  children,
+  name,
+  visibleComponents,
+}: {
+  children: React.ReactNode;
+  name: string;
+  visibleComponents: string[];
+}) {
+  if (!visibleComponents.includes(name)) return null;
+  return <>{children}</>;
+}
 
 export default Page;

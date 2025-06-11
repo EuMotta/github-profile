@@ -11,30 +11,32 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetGithubFollowers } from '@/hooks/github-followers';
 
-const FollowersCard = React.memo(({ follower }: { follower: GitFollowers }) => {
-  return (
-    <div className="flex items-center gap-3 rounded-lg p-2 transition-colors duration-200 hover:bg-muted">
-      <Avatar>
-        <AvatarImage src={follower.avatar_url} alt={`@${follower.login}`} />
-        <AvatarFallback>{follower.login.slice(0, 2).toUpperCase()}</AvatarFallback>
-      </Avatar>
+const FollowersCard = React.memo(
+  ({ follower: { avatar_url = '', login = 'undefined' } }: { follower: GitFollowers }) => {
+    return (
+      <div className="flex items-center gap-3 rounded-lg p-2 transition-colors duration-200 hover:bg-muted">
+        <Avatar>
+          <AvatarImage src={avatar_url} alt={`@${login}`} />
+          <AvatarFallback>{login.slice(0, 2).toUpperCase()}</AvatarFallback>
+        </Avatar>
 
-      <div>
-        <Link href={`/profile/${follower.login}`} className="font-medium">
-          @{follower.login}
-        </Link>
+        <div>
+          <Link href={`/profile/${login}`} className="font-medium">
+            @{login}
+          </Link>
+        </div>
+
+        <Button
+          size="icon"
+          variant="ghost"
+          className="ml-auto hover:bg-primary hover:text-primary-foreground"
+        >
+          <MdPersonAdd size={16} />
+        </Button>
       </div>
-
-      <Button
-        size="icon"
-        variant="ghost"
-        className="ml-auto hover:bg-primary hover:text-primary-foreground"
-      >
-        <MdPersonAdd size={16} />
-      </Button>
-    </div>
-  );
-});
+    );
+  },
+);
 
 FollowersCard.displayName = 'FollowersCard';
 

@@ -32,15 +32,17 @@ interface FeatureCardProps {
   feature: FeatureItem;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = React.memo(({ feature }) => (
-  <li className="transform-gpu space-y-3 rounded-xl border bg-transparent p-4 [box-shadow:0_-20px_80px_-20px_hsla(var(--primary)_/_0.2)_inset]">
-    <div className="w-fit transform-gpu rounded-full border p-4 text-primary [box-shadow:0_-20px_80px_-20px_#ff7aa43f_inset] dark:[box-shadow:0_-20px_80px_-20px_#ff7aa40f_inset]">
-      {feature.icon}
-    </div>
-    <h4 className="font-geist text-lg font-bold tracking-tighter">{feature.title}</h4>
-    <p className="text-muted-foreground">{feature.description}</p>
-  </li>
-));
+const FeatureCard: React.FC<FeatureCardProps> = React.memo(
+  ({ feature: { icon = 'undefined', title = 'undefined', description = 'undefined' } }) => (
+    <li className="transform-gpu space-y-3 rounded-xl border bg-transparent p-4 [box-shadow:0_-20px_80px_-20px_hsla(var(--primary)_/_0.2)_inset]">
+      <div className="w-fit transform-gpu rounded-full border p-4 text-primary [box-shadow:0_-20px_80px_-20px_#ff7aa43f_inset] dark:[box-shadow:0_-20px_80px_-20px_#ff7aa40f_inset]">
+        {icon}
+      </div>
+      <h4 className="font-geist text-lg font-bold tracking-tighter">{title}</h4>
+      <p className="text-muted-foreground">{description}</p>
+    </li>
+  ),
+);
 
 FeatureCard.displayName = 'FeatureCard';
 

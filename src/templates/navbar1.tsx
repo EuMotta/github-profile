@@ -51,7 +51,7 @@ interface Navbar1Props {
 }
 
 const Navbar1 = ({
-  menu = [{ title: 'About', url: '/' }],
+  menu = [{ title: 'About', url: '/about' }],
   auth = {
     login: { title: 'Login', url: '#' },
     signup: { title: 'Sign up', url: '#' },

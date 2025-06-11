@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://styled-hub.vercel.app/
+
+# Sitemaps
+Sitemap: https://styled-hub.vercel.app/sitemap.xml
